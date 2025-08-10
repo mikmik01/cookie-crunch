@@ -1,0 +1,23 @@
+[
+    {
+        "id": "tigreal",
+        "name": "Tigreal",
+        "difficulty": "easy",
+        "roles": ["roam"],
+        "tags": ["engage", "cc", "tank"]
+    },
+    {
+        "id": "grock",
+        "name": "Grock",
+        "difficulty": "hard",
+        "roles": ["roam", "exp"],
+        "tags": ["engage", "cc", "tank"]
+    },
+    {
+        "id": "floryn",
+        "name": "Floryn",
+        "difficulty": "easy",
+        "roles": ["roam"],
+        "tags": ["sustain", "healer"]
+    }
+]
