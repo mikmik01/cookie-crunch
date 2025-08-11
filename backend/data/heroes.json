@@ -4,20 +4,97 @@
         "name": "Tigreal",
         "difficulty": "easy",
         "roles": ["roam"],
-        "tags": ["engage", "cc", "tank"]
+        "tags": ["engage", "cc/disrupt", "tank"]
     },
     {
         "id": "grock",
         "name": "Grock",
         "difficulty": "hard",
         "roles": ["roam", "exp"],
-        "tags": ["engage", "cc", "tank"]
+        "tags": ["engage", "cc/disrupt", "tank", "vision"]
     },
     {
         "id": "floryn",
         "name": "Floryn",
         "difficulty": "easy",
         "roles": ["roam"],
-        "tags": ["sustain", "healer"]
+        "tags": ["sustain", "heal", "guardian"]
+    },
+    {
+        "id": "thamuz",
+        "name": "Thamuz",
+        "difficulty": "medium",
+        "roles": ["exp"],
+        "tags": ["early", "sustain", "anti-tank", "duelist"]
+    },
+    {
+        "id": "yu_zhong",
+        "name": "Yu Zhong",
+        "difficulty": "hard",
+        "roles": ["exp"],
+        "tags": ["early", "sustain", "initiate", "teamfight"]
+    },
+    {
+        "id": "benedetta",
+        "name": "Benedetta",
+        "difficulty": "extreme",
+        "roles": ["exp", "jungle"],
+        "tags": ["mid", "split", "burst"]
+    },
+    {
+        "id": "beatrix",
+        "name": "Beatrix",
+        "difficulty": "hard",
+        "roles": ["gold"],
+        "tags": ["late", "burst", "poke", "basic_attack"]
+    },
+    {
+        "id": "karrie",
+        "name": "Karrie",
+        "difficulty": "medium",
+        "roles": ["gold"],
+        "tags": ["late", "basic_attack", "anti_tank"]
+    },
+    {
+        "id": "brody",
+        "name": "Brody",
+        "difficulty": "medium",
+        "roles": ["gold"],
+        "tags": ["early", "burst", "duelist"]
+    },
+    {
+        "id": "pharsa",
+        "name": "Pharsa",
+        "difficulty": "medium",
+        "roles": ["mid"],
+        "tags": ["late", "poke", "burst"]
+    },
+    {
+        "id": "lylia",
+        "name": "Lylia",
+        "difficulty": "hard",
+        "roles": ["mid", "gold"],
+        "tags": ["early", "poke", "burst", "waveclear"]
+    },
+    {
+        "id": "lancelot",
+        "name": "Lancelot",
+        "difficulty": "hard",
+        "roles": ["jungle"],
+        "tags": ["mid", "burst", "objective_secure", "invader/controller"]
+    },
+    {
+        "id": "fanny",
+        "name": "Fanny",
+        "difficulty": "extreme",
+        "roles": ["jungle"],
+        "tags": ["early", "invader/controller"]
+    },
+    {
+        "id": "baxia",
+        "name": "Baxia",
+        "difficulty": "easy",
+        "roles": ["exp", "jungle", "roam"],
+        "tags": ["early", "tank", "sustain", "specialist"]
     }
 ]
