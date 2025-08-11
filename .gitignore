@@ -51,6 +51,13 @@ coverage.xml
 .pytest_cache/
 cover/
 
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
 # Translations
 *.mo
 *.pot
