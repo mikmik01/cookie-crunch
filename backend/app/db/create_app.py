@@ -22,17 +22,6 @@ def create_app():
     
     app.register_blueprint(api_v1, url_prefix="/api/v1")
     
-    @app.errorhandler(400)
-    def bad_request(e):
-        return jsonify(code="BAD REQUEST", message=str(e), details={}), 400
-    
-    @app.errorhandler(404)
-    def not_found(e):
-        return jsonify(code="NOT FOUND", message=str(e), details={}), 404
-    
-    @app.errorhandler(500)
-    def not_found(e):
-        return jsonify(code="SERVER ERROR", message=str(e), details={}), 500
     return app
 
 __all__ = ["create_app", "db"]

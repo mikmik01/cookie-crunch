@@ -1,6 +1,5 @@
 from flask import Blueprint
-from . import health
+from . import api
 
 api_v1 = Blueprint("api_v1",  __name__)
-
-api_v1.register_blueprint(health.bp)
+api_v1.register_blueprint(api.bp)
