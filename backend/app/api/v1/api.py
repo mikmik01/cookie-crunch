@@ -43,7 +43,7 @@ def register():
 
 @bp.route("/auth/login", methods=["POST"])
 def login():
-    email, username, password = get_user_details()
+    email, _, _ = get_user_details()
     user = db.session.query(User).filter_by(email=email).first()
     if not user:
         abort(401, "Invalid email or password")
