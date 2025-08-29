@@ -2,99 +2,424 @@
     {
         "id": "tigreal",
         "name": "Tigreal",
+        "damage_type": "N.A.",
         "difficulty": "easy",
+        "stage": "any",
         "roles": ["roam"],
         "tags": ["engage", "cc/disrupt", "tank"]
     },
     {
+        "id": "miya",
+        "name": "Miya",
+        "damage_type": "physical",
+        "difficulty": "medium",
+        "stage": "late",
+        "roles": ["gold"],
+        "tags": ["burst", "poke", "basic_attack"]
+    },
+    {
+        "id": "balmond",
+        "name": "Balmond",
+        "damage_type": "physical",
+        "difficulty": "easy",
+        "stage": "early",
+        "roles": ["jungle"],
+        "tags": ["burst", "tank", "objective_secure"]
+    },
+    {
+        "id": "saber",
+        "name": "Saber",
+        "damage_type": "physical",
+        "difficulty": "easy",
+        "stage": "early",
+        "roles": ["jungle", "roam"],
+        "tags": ["burst"]
+    },
+    {
+        "id": "alice",
+        "name": "Alice",
+        "damage_type": "magic",
+        "difficulty": "medium",
+        "stage": "mid",
+        "roles": ["jungle", "gold"],
+        "tags": ["sustain", "bruiser"]
+    },
+    {
+        "id": "nana",
+        "name": "Nana",
+        "damage_type": "magic",
+        "difficulty": "easy",
+        "stage": "late",
+        "roles": ["mid"],
+        "tags": ["burst", "cc/disrupt"]
+    },
+    {
+        "id": "alucard",
+        "name": "Alucard",
+        "damage_type": "physical",
+        "difficulty": "medium",
+        "stage": "mid",
+        "roles": ["jungle"],
+        "tags": ["sustain", "duelist", "hypercarry"]
+    },
+    {
+        "id": "karina",
+        "name": "Karina",
+        "damage_type": "magic",
+        "difficulty": "medium",
+        "stage": "early",
+        "roles": ["jungle"],
+        "tags": ["burst", "hypercarry", "objective_secure"]
+    },
+    {
+        "id": "akai",
+        "name": "Akai",
+        "damage_type": "N.A.",
+        "difficulty": "hard",
+        "stage": "any",
+        "roles": ["jungle", "exp", "roam"],
+        "tags": ["tank", "cc/disrupt", "objective_secure", "guardian", "engage"]
+    },
+    {
+        "id": "franco",
+        "name": "Franco",
+        "damage_type": "N.A.",
+        "difficulty": "extreme",
+        "stage": "any",
+        "roles": ["roam"],
+        "tags": ["pickoff", "cc/disrupt"]
+    },
+    {
+        "id": "bane",
+        "name": "Bane",
+        "damage_type": "physical",
+        "difficulty": "easy",
+        "stage": "late",
+        "roles": ["jungle"],
+        "tags": ["burst", "duelist", "cc/disrupt"]
+    },
+    {
+        "id": "bruno",
+        "name": "Bruno",
+        "damage_type": "physical",
+        "difficulty": "medium",
+        "stage": "mid",
+        "roles": ["gold"],
+        "tags": ["burst", "poke", "hypercarry", "basic_attack"]
+    },
+    {
+        "id": "clint",
+        "name": "Clint",
+        "damage_type": "physical",
+        "difficulty": "easy",
+        "stage": "mid",
+        "roles": ["gold"],
+        "tags": ["burst", "poke", "basic_attack", "artillery"]
+    },
+    {
+        "id": "rafaela",
+        "name": "Rafaela",
+        "damage_type": "N.A.",
+        "difficulty": "easy",
+        "stage": "any",
+        "roles": ["roam"],
+        "tags": ["heal", "vision", "guardian", "utility"]
+    },
+    {
+        "id": "eudora",
+        "name": "Eudora",
+        "damage_type": "magic",
+        "difficulty": "easy",
+        "stage": "early",
+        "roles": ["mid"],
+        "tags": ["burst"]
+    },
+    {
+        "id": "zilong",
+        "name": "Zilong",
+        "damage_type": "physical",
+        "difficulty": "medium",
+        "stage": "late",
+        "roles": ["exp"],
+        "tags": ["hypercarry", "split", "duelist"]
+    },
+    {
+        "id": "layla",
+        "name": "Layla",
+        "damage_type": "physical",
+        "difficulty": "easy",
+        "stage": "late",
+        "roles": ["gold"],
+        "tags": ["poke", "hypercarry", "basic_attack"]
+    },
+    {
+        "id": "minotaur",
+        "name": "Minotaur",
+        "damage_type": "N.A.",
+        "difficulty": "easy",
+        "stage": "late",
+        "roles": ["roam"],
+        "tags": ["engage", "heal", "cc/disrupt"]
+    },
+    {
+        "id": "lolita",
+        "name": "Lolita",
+        "damage_type": "N.A.",
+        "difficulty": "medium",
+        "stage": "mid",
+        "roles": ["roam"],
+        "tags": ["guardian", "heal", "anti_meta", "cc/disrupt"]
+    },
+    {
+        "id": "hayabusa",
+        "name": "Hayabusa",
+        "damage_type": "physical",
+        "difficulty": "medium",
+        "stage": "late",
+        "roles": ["jungle"],
+        "tags": ["burst", "hypercarry"]
+    },
+    {
+        "id": "freya",
+        "name": "Freya",
+        "damage_type": "physical",
+        "difficulty": "medium",
+        "stage": "early",
+        "roles": ["jungle", "exp"],
+        "tags": ["hypercarry", "split", "duelist", "anti_meta"]
+    },
+    {
+        "id": "gord",
+        "name": "Gord",
+        "damage_type": "magic",
+        "difficulty": "easy",
+        "stage": "mid",
+        "roles": ["mid"],
+        "tags": ["poke", "burst", "cc/disrupt", "anti_tank"]
+    },
+    {
+        "id": "natalia",
+        "name": "Natalia",
+        "damage_type": "physical",
+        "difficulty": "extreme",
+        "stage": "any",
+        "roles": ["roam"],
+        "tags": ["burst", "pickoff", "cc/disrupt"]
+    },
+    {
+        "id": "kagura",
+        "name": "Kagura",
+        "damage_type": "masic",
+        "difficulty": "hard",
+        "stage": "late",
+        "roles": ["mid"],
+        "tags": ["burst", "pickoff"]
+    },
+    {
+        "id": "chou",
+        "name": "Chou",
+        "damage_type": "physical",
+        "difficulty": "hard",
+        "stage": "any",
+        "roles": ["roam", "exp"],
+        "tags": ["burst", "pickoff", "engage", "duelist"]
+    },
+    {
+        "id": "sun",
+        "name": "Sun",
+        "damage_type": "physical",
+        "difficulty": "medium",
+        "stage": "late",
+        "roles": ["exp", "jungle"],
+        "tags": ["split", "duelist", "anti_tank", "hypercarry"]
+    },
+    {
+        "id": "alpha",
+        "name": "Alpha",
+        "damage_type": "physical",
+        "difficulty": "medium",
+        "stage": "early",
+        "roles": ["jungle"],
+        "tags": ["burst", "anti_tank"]
+    },
+    {
+        "id": "ruby",
+        "name": "Ruby",
+        "damage_type": "physical",
+        "difficulty": "medium",
+        "stage": "mid",
+        "roles": ["exp", "gold", "roam"],
+        "tags": ["sustain", "tank", "initiate", "cc/disrupt"]
+    },
+    {
+        "id": "alpha",
+        "name": "Alpha",
+        "damage_type": "physical",
+        "difficulty": "medium",
+        "stage": "early",
+        "roles": ["jungle"],
+        "tags": ["burst", "anti_tank"]
+    },
+    {
+        "id": "yisunshin",
+        "name": "Yi Sun Shin",
+        "damage_type": "physical",
+        "difficulty": "hard",
+        "stage": "late",
+        "roles": ["jungle"],
+        "tags": ["burst", "hypercarry"]
+    },
+    {
+        "id": "moskov",
+        "name": "Moskov",
+        "damage_type": "physical",
+        "difficulty": "hard",
+        "stage": "late",
+        "roles": ["gold"],
+        "tags": ["basic_attack", "split"]
+    },
+    {
+        "id": "johnson",
+        "name": "Johnson",
+        "damage_type": "magic",
+        "difficulty": "hard",
+        "stage": "any",
+        "roles": ["roam"],
+        "tags": ["anti_meta", "cc/disrupt", "engage", "vision"]
+    },
+    {
+        "id": "cyclops",
+        "name": "Cyclops",
+        "damage_type": "magic",
+        "difficulty": "easy",
+        "stage": "late",
+        "roles": ["mid", "jungle"],
+        "tags": ["burst", "hypercarry"]
+    },
+    {
+        "id": "hayabusa",
+        "name": "Hayabusa",
+        "damage_type": "physical",
+        "difficulty": "medium",
+        "stage": "late",
+        "roles": ["jungle"],
+        "tags": ["burst", "hypercarry"]
+    },
+    {
         "id": "grock",
         "name": "Grock",
+        "damage_type": "N.A.",
         "difficulty": "hard",
+        "stage": "any",
         "roles": ["roam", "exp"],
         "tags": ["engage", "cc/disrupt", "tank", "vision"]
     },
     {
         "id": "floryn",
         "name": "Floryn",
+        "damage_type": "N.A.",
         "difficulty": "easy",
+        "stage": "late",
         "roles": ["roam"],
         "tags": ["sustain", "heal", "guardian"]
     },
     {
         "id": "thamuz",
         "name": "Thamuz",
+        "damage_type": "physical",
         "difficulty": "medium",
+        "stage": "early",
         "roles": ["exp"],
-        "tags": ["early", "sustain", "anti-tank", "duelist"]
+        "tags": ["sustain", "anti_tank", "duelist"]
     },
     {
         "id": "yu_zhong",
         "name": "Yu Zhong",
+        "damage_type": "physical",
         "difficulty": "hard",
+        "stage": "early",
         "roles": ["exp"],
-        "tags": ["early", "sustain", "initiate", "teamfight"]
+        "tags": ["sustain", "initiate", "teamfight"]
     },
     {
         "id": "benedetta",
         "name": "Benedetta",
+        "damage_type": "physical",
         "difficulty": "extreme",
+        "stage": "mid",
         "roles": ["exp", "jungle"],
-        "tags": ["mid", "split", "burst"]
+        "tags": ["split", "burst"]
     },
     {
         "id": "beatrix",
         "name": "Beatrix",
+        "damage_type": "physical",
         "difficulty": "hard",
+        "stage": "late",
         "roles": ["gold"],
-        "tags": ["late", "burst", "poke", "basic_attack"]
+        "tags": ["burst", "poke", "basic_attack"]
     },
     {
         "id": "karrie",
         "name": "Karrie",
+        "damage_type": "physical",
         "difficulty": "medium",
+        "stage": "late",
         "roles": ["gold"],
-        "tags": ["late", "basic_attack", "anti_tank"]
+        "tags": ["basic_attack", "anti_tank"]
     },
     {
         "id": "brody",
         "name": "Brody",
+        "damage_type": "physical",
         "difficulty": "medium",
+        "stage": "early",
         "roles": ["gold"],
-        "tags": ["early", "burst", "duelist"]
+        "tags": ["burst", "duelist"]
     },
     {
         "id": "pharsa",
         "name": "Pharsa",
+        "damage_type": "magic",
         "difficulty": "medium",
+        "stage": "late",
         "roles": ["mid"],
-        "tags": ["late", "poke", "burst"]
+        "tags": ["poke", "burst"]
     },
     {
         "id": "lylia",
         "name": "Lylia",
+        "damage_type": "magic",
         "difficulty": "hard",
+        "stage": "early",
         "roles": ["mid", "gold"],
-        "tags": ["early", "poke", "burst", "waveclear"]
+        "tags": ["poke", "burst", "waveclear"]
     },
     {
         "id": "lancelot",
         "name": "Lancelot",
+        "damage_type": "physical",
         "difficulty": "hard",
+        "stage": "mid",
         "roles": ["jungle"],
-        "tags": ["mid", "burst", "objective_secure", "invader/controller"]
+        "tags": ["burst", "objective_secure", "invader/controller"]
     },
     {
         "id": "fanny",
         "name": "Fanny",
+        "damage_type": "physical",
         "difficulty": "extreme",
+        "stage": "early",
         "roles": ["jungle"],
-        "tags": ["early", "invader/controller"]
+        "tags": ["invader/controller"]
     },
     {
         "id": "baxia",
         "name": "Baxia",
+        "damage_type": "magic",
         "difficulty": "easy",
+        "stage": "early",
         "roles": ["exp", "jungle", "roam"],
-        "tags": ["early", "tank", "sustain", "specialist"]
+        "tags": ["tank", "sustain", "anti_meta"]
     }
 ]
