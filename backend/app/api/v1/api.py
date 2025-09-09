@@ -1,7 +1,8 @@
+from uuid import uuid4
 from flask import Blueprint, jsonify, request, abort
-from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, current_user
+from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, current_user, jwt_required
 from app.db.session import db
-from app.models.models import Hero, User
+from app.models.models import Hero, User, Draft
 
 import config as config
 
@@ -16,14 +17,14 @@ def get_user_details():
     return email, username, password
 
 
-@bp.route("/health", methods=["GET"])
+@bp.get("/health")
 def health():
     return jsonify({
         "status": "healthy"
     })
 
 
-@bp.route("/auth/register", methods=["POST"])
+@bp.post("/auth/register")
 def register():
     email, username, password = get_user_details()
     if len(password) < 8:
@@ -41,7 +42,7 @@ def register():
     return jsonify(message=f"Registered {username}"), 201
 
 
-@bp.route("/auth/login", methods=["POST"])
+@bp.post("/auth/login")
 def login():
     email, _, _ = get_user_details()
     user = db.session.query(User).filter_by(email=email).first()
@@ -58,7 +59,7 @@ def login():
     )
 
 
-@bp.route("/auth/refresh", methods=["POST"])
+@bp.post("/auth/refresh")
 def refresh():
     user_id = get_jwt_identity()
     new_access = create_access_token(identity=user_id)
@@ -81,7 +82,7 @@ def me():
     )
 
 
-@bp.route("/heroes", methods=["GET"])
+@bp.get("/heroes")
 def list_heroes():
     query = db.session.query(Hero)
     heroes = query.all()
@@ -98,7 +99,7 @@ def list_heroes():
     return jsonify(result), 200
 
 
-@bp.route("/heroes/<string:hero_id>")
+@bp.get("/heroes/<string:hero_id>")
 def get_hero_by_id(hero_id):
     hero = db.session.query(Hero).filter_by(id=hero_id).first()
     
@@ -116,3 +117,30 @@ def get_hero_by_id(hero_id):
         "roles": hero.roles,
         "tags": hero.tags
     }), 200
+
+
+@bp.post("/drafts")
+@jwt_required()
+def create_draft():
+    user_id = get_jwt_identity()
+    if not user_id:
+        abort(401, description="Unauthorized")
+    
+    draft = Draft(
+        id=str(uuid4()),
+        created_by=user_id,
+        phase="ban",
+        max_bans=10
+    )
+
+    db.session.add(draft)
+    db.session.commit()
+    db.session.refresh(draft)
+
+    return jsonify({
+        "id": draft.id,
+        "phase": draft.phase,
+        "maxBans": draft.max_bans,
+        "createdBy": draft.created_by,
+        "createdAt": draft.created_at
+    }), 201
