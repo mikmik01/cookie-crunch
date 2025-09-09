@@ -252,15 +252,6 @@
         "tags": ["sustain", "tank", "initiate", "cc/disrupt"]
     },
     {
-        "id": "alpha",
-        "name": "Alpha",
-        "damage_type": "physical",
-        "difficulty": "medium",
-        "stage": "early",
-        "roles": ["jungle"],
-        "tags": ["burst", "anti_tank"]
-    },
-    {
         "id": "yisunshin",
         "name": "Yi Sun Shin",
         "damage_type": "physical",
@@ -294,15 +285,6 @@
         "difficulty": "easy",
         "stage": "late",
         "roles": ["mid", "jungle"],
-        "tags": ["burst", "hypercarry"]
-    },
-    {
-        "id": "hayabusa",
-        "name": "Hayabusa",
-        "damage_type": "physical",
-        "difficulty": "medium",
-        "stage": "late",
-        "roles": ["jungle"],
         "tags": ["burst", "hypercarry"]
     },
     {

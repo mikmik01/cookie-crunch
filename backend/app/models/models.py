@@ -1,4 +1,4 @@
-from ..db.create_app import db
+from app.db.session import db
 from sqlalchemy.dialects.mysql import ENUM
 
 class User(db.Model):
@@ -15,7 +15,9 @@ class Hero(db.Model):
 
     id = db.Column(db.String(50), primary_key=True)
     name = db.Column(db.String(100))
+    damage_type = db.Column(ENUM("magic", "physical", "N.A.", "hybrid"))
     difficulty = db.Column(ENUM("easy", "medium", "hard", "extreme"))
+    stage = db.Column(ENUM("early", "mid", "late", "any"))
     roles = db.Column(db.JSON)
     tags = db.Column(db.JSON)
 

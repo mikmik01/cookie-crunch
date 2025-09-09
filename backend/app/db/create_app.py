@@ -1,24 +1,23 @@
-import os
-from flask import Flask, jsonify
+from flask import Flask
 from flask_jwt_extended import JWTManager
-from datetime import timedelta
-from pathlib import Path
-from dotenv import load_dotenv
 from app.db.session import db
-from app.api.v1 import api_v1
-from app.models.models import User
 import config as config
+from sqlalchemy import create_engine, text
 
 jwt = JWTManager()
 
 def create_app():
     # * remember to create a SCHEMA with the database name first. not a CONNECTION
-    env_path = Path(__file__).resolve().parents[3] / "dev.env"
-    load_dotenv(dotenv_path=env_path)
-    # print(user, password, host, port, database)
-    
+    tmp_uri = f"mysql+pymysql://{config.db_user}:{config.db_password}@{config.host}:{config.db_port}/"
+    _engine = create_engine(tmp_uri, future=True, isolation_level="AUTOCOMMIT")
+
+    with _engine.connect() as conn:
+        conn.execute(text(
+            f"CREATE DATABASE IF NOT EXISTS `{config.db_name}` "
+            "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
+        ))
     uri = f"mysql+pymysql://{config.db_user}:{config.db_password}@{config.host}:{config.db_port}/{config.db_name}"
-    
+
     app = Flask(__name__)
     app.config["SQLALCHEMY_DATABASE_URI"] = uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -28,13 +27,16 @@ def create_app():
     
     db.init_app(app)
     jwt.init_app(app)
+
+    from app.api.v1.api import bp as api_bp
+    app.register_blueprint(api_bp, url_prefix="/api/v1")
     
     @jwt.user_lookup_loader
     def load_user(_h, data):
+        from app.models.models import User
         return db.session.get(User, data["sub"])
-
-    app.register_blueprint(api_v1, url_prefix="/api/v1")
     
+    print("App instance created successfully")
     return app
 
 __all__ = ["create_app", "db"]

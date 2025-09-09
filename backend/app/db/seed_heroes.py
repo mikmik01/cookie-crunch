@@ -1,15 +1,20 @@
 import json
 from pathlib import Path
-from backend.app.db.create_app import engine, heroes
+from sqlalchemy import delete, insert
+from app.db.create_app import create_app
+from app.db.session import db
+from app.models.models import Hero
 
-data_path = Path(__file__).resolve().parents[2] / "data" / "heroes.json"
+def main():
+    app = create_app()
+    data_path = Path(__file__).resolve().parents[2] / "data" / "heroes.json"
+    heroes_data = json.loads(data_path.read_text(encoding="utf-8"))
 
-heroes_data = json.loads(data_path.read_text())
+    with app.app_context():
+        with db.engine.begin() as conn:
+            conn.execute(delete(Hero))
+            conn.execute(insert(Hero), heroes_data)
+        print(f"Cleared and inserted {len(heroes_data)} heroes")
 
-with engine.connect() as conn:
-    conn.execute(heroes.delete())
-    print("Cleared heroes table")
-
-    conn.execute(heroes.insert(), heroes_data)
-    conn.commit()
-    print(f"Inserted {len(heroes_data)} into table")
+if __name__ == "__main__":
+    main()
