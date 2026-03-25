@@ -1,1 +1,0 @@
-Run backend with cd backend, then python run.py
