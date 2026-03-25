@@ -16,8 +16,9 @@ def fetch_page_edge(url: str) -> str:
     with sync_playwright() as p:
         browser = p.chromium.launch(channel="msedge", headless=True)
         page = browser.new_page(user_agent=USER_AGENT)
-        page.goto(url, wait_until="networkidle", timeout=PLAYWRIGHT_TIMEOUT_MS)
-
+        page.goto(url, wait_until="domcontentloaded", timeout=60000)
+        page.wait_for_selector("table tbody tr", timeout=60000)
+        
         prev_count = 0
 
         for i in range(60):

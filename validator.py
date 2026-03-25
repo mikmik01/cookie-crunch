@@ -1,11 +1,78 @@
 import pandas as pd
+from copy import deepcopy
+from config import DEFAULT_PLAN, ALLOWED_STEPS, ALLOWED_TASK_TYPES, REQUIRED_COLUMNS, ALLOWED_TIERS
 
-REQUIRED_COLUMNS = [
-    "rank", "lane", "hero", "tier",
-    "win_rate", "ban_rate", "pick_rate", "roles"
-]
+def _to_float_or_none(value):
+    if value is None:
+        return None
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
 
-ALLOWED_TIERS = {"SS", "S", "A", "B", "C", "D"}
+
+def _to_int_or_default(value, default=10):
+    try:
+        ivalue = int(value)
+        return ivalue if ivalue > 0 else default
+    except (TypeError, ValueError):
+        return default
+
+
+def validate_and_repair_plan(plan: dict) -> dict:
+    repaired = deepcopy(DEFAULT_PLAN)
+
+    if not isinstance(plan, dict):
+        return repaired
+
+    task_type = plan.get("task_type")
+    if task_type in ALLOWED_TASK_TYPES:
+        repaired["task_type"] = task_type
+
+    steps = plan.get("steps")
+    if isinstance(steps, list):
+        valid_steps = [s for s in steps if s in ALLOWED_STEPS]
+        if valid_steps:
+            repaired["steps"] = valid_steps
+
+    filters = plan.get("filters")
+    if isinstance(filters, dict):
+        repaired["filters"]["lane"] = filters.get("lane") or None
+        repaired["filters"]["hero"] = filters.get("hero") or None
+
+        for key in [
+            "min_win_rate", "max_win_rate",
+            "min_pick_rate", "max_pick_rate",
+            "min_ban_rate", "max_ban_rate",
+        ]:
+            repaired["filters"][key] = _to_float_or_none(filters.get(key))
+
+        repaired["filters"]["top_n"] = _to_int_or_default(filters.get("top_n"), default=10)
+
+    reasoning = plan.get("reasoning_summary")
+    if isinstance(reasoning, str) and reasoning.strip():
+        repaired["reasoning_summary"] = reasoning.strip()
+
+    for key in [
+        "min_win_rate", "max_win_rate",
+        "min_pick_rate", "max_pick_rate",
+        "min_ban_rate", "max_ban_rate",
+    ]:
+        value = repaired["filters"][key]
+        if value is not None and not (0 <= value <= 100):
+            repaired["filters"][key] = None
+
+    f = repaired["filters"]
+    if f["min_win_rate"] is not None and f["max_win_rate"] is not None and f["min_win_rate"] > f["max_win_rate"]:
+        f["min_win_rate"], f["max_win_rate"] = f["max_win_rate"], f["min_win_rate"]
+
+    if f["min_pick_rate"] is not None and f["max_pick_rate"] is not None and f["min_pick_rate"] > f["max_pick_rate"]:
+        f["min_pick_rate"], f["max_pick_rate"] = f["max_pick_rate"], f["min_pick_rate"]
+
+    if f["min_ban_rate"] is not None and f["max_ban_rate"] is not None and f["min_ban_rate"] > f["max_ban_rate"]:
+        f["min_ban_rate"], f["max_ban_rate"] = f["max_ban_rate"], f["min_ban_rate"]
+
+    return repaired
 
 def validate_df(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     issues = []

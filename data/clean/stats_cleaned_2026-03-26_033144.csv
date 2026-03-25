@@ -1,0 +1,133 @@
+rank,lane,hero,tier,win_rate,ban_rate,pick_rate,roles
+1.0,,Gloo,SS,54.31,91.75,0.58,Tank
+2.0,,Sora,SS,52.6,86.09,1.12,Fighter Assassin
+3.0,,Freya,SS,51.82,71.32,1.27,Fighter
+4.0,,Marcel,SS,48.47,80.18,0.43,Support
+5.0,,Guinevere,SS,52.02,49.77,1.57,Fighter
+6.0,,Estes,S,54.76,27.3,0.86,Support
+7.0,,Helcurt,S,51.44,42.15,0.79,Assassin
+8.0,,Fredrinn,S,52.84,30.21,1.07,Fighter Tank
+9.0,,Yi Sun-shin,S,50.03,31.93,2.15,Assassin Marksman
+10.0,,Zhuxin,S,53.01,29.98,0.82,Mage
+11.0,,Hanabi,S,53.09,8.05,2.74,Marksman
+12.0,,Floryn,S,54.25,17.48,1.29,Support
+13.0,,Karrie,S,52.0,25.21,1.63,Marksman
+14.0,,Minsitthar,S,52.13,29.26,1.01,Fighter
+15.0,,Hilda,S,52.68,26.27,1.0,Fighter Tank
+16.0,,Zetian,S,51.72,16.73,2.02,Mage
+17.0,,Kaja,S,56.76,7.24,0.44,Support Fighter
+18.0,,Alice,S,51.02,28.62,1.07,Mage Tank
+19.0,,Diggie,S,55.71,12.92,0.25,Support
+20.0,,Masha,S,57.73,0.61,0.15,Fighter Tank
+21.0,,Gusion,S,50.16,16.49,2.03,Assassin
+22.0,,Kadita,S,52.9,11.06,1.18,Mage Assassin
+23.0,,Natan,S,54.4,3.85,1.14,Marksman
+24.0,,Lolita,S,56.89,0.96,0.2,Support Tank
+25.0,,Suyou,S,52.04,6.32,1.92,Assassin Fighter
+26.0,,Leomord,S,52.33,10.8,1.15,Fighter
+27.0,,Sun,S,51.7,8.98,1.48,Fighter
+28.0,,Minotaur,S,53.8,4.69,0.64,Tank Support
+29.0,,Harley,S,52.59,3.5,1.3,Assassin Mage
+30.0,,Gord,S,54.51,0.24,0.67,Mage
+31.0,,Aamon,A,51.21,11.89,0.79,Assassin
+32.0,,Khufra,A,54.08,1.21,0.37,Tank
+33.0,,Valir,A,52.73,1.43,0.94,Mage
+34.0,,Silvanna,A,52.33,1.05,0.93,Fighter
+35.0,,Miya,A,51.22,1.63,1.39,Marksman
+36.0,,Benedetta,A,52.4,1.59,0.77,Assassin Fighter
+37.0,,Khaleed,A,52.96,0.57,0.46,Fighter
+38.0,,Obsidia,A,51.75,2.2,0.85,Marksman
+39.0,,Ruby,A,52.34,0.42,0.73,Fighter
+40.0,,Badang,A,51.16,1.82,1.1,Fighter
+41.0,,Moskov,A,51.12,0.27,1.25,Marksman
+42.0,,Clint,A,51.53,0.74,0.94,Marksman
+43.0,,Angela,A,48.18,9.04,1.74,Support
+44.0,,Irithel,A,52.5,0.15,0.47,Marksman
+45.0,,Vexana,A,49.67,0.8,1.7,Mage
+46.0,,Yve,A,52.97,0.09,0.17,Mage
+47.0,,Phoveus,A,51.43,1.82,0.72,Fighter
+48.0,,Yu Zhong,A,50.38,3.0,1.1,Fighter
+49.0,,Brody,A,51.64,0.42,0.72,Marksman
+50.0,,Natalia,A,52.09,1.62,0.27,Assassin
+51.0,,Melissa,A,51.79,0.37,0.48,Marksman
+52.0,,Cyclops,A,51.11,0.25,0.79,Mage
+53.0,,Akai,A,51.2,1.82,0.59,Tank
+54.0,,Kagura,A,50.78,0.96,0.86,Mage
+55.0,,Hanzo,A,50.29,8.18,0.42,Assassin
+56.0,,Odette,A,51.2,0.26,0.71,Mage
+57.0,,Grock,A,48.58,10.4,1.0,Tank Fighter
+58.0,,Uranus,A,51.52,0.53,0.52,Tank
+59.0,,Carmilla,A,51.22,0.55,0.63,Support Tank
+60.0,,Saber,A,49.88,7.52,0.56,Assassin
+61.0,,Julian,A,50.21,0.99,0.92,Fighter Mage
+62.0,,Hayabusa,A,49.04,4.14,1.17,Assassin
+63.0,,Faramis,A,51.66,0.79,0.15,Support Mage
+64.0,,Claude,A,49.45,0.48,1.16,Marksman
+65.0,,Nolan,A,50.97,0.27,0.43,Assassin
+66.0,,Zhask,A,51.35,0.1,0.26,Mage
+67.0,,Rafaela,A,51.26,0.77,0.24,Support
+68.0,,Atlas,B,50.28,1.05,0.56,Tank
+69.0,,Tigreal,B,45.64,6.12,2.23,Tank
+70.0,,Lapu-Lapu,B,49.52,0.71,0.85,Fighter
+71.0,,Terizla,B,50.4,0.15,0.46,Fighter
+72.0,,Thamuz,B,49.19,1.68,0.87,Fighter
+73.0,,Popol and Kupa,B,50.86,0.09,0.22,Marksman
+74.0,,Ixia,B,48.98,2.94,0.84,Marksman
+75.0,,Xavier,B,49.85,0.11,0.66,Mage
+76.0,,Alucard,B,49.86,0.42,0.61,Fighter Assassin
+77.0,,Argus,B,50.59,0.26,0.25,Fighter
+78.0,,Joy,B,50.04,1.09,0.43,Assassin
+79.0,,Kimmy,B,48.71,0.84,1.08,Marksman Mage
+80.0,,Lunox,B,50.03,0.29,0.49,Mage
+81.0,,Baxia,B,50.62,0.24,0.16,Tank
+82.0,,Arlott,B,49.57,0.72,0.6,Fighter Assassin
+83.0,,Belerick,B,48.56,2.83,0.87,Tank
+84.0,,Edith,B,50.4,0.07,0.2,Tank Marksman
+85.0,,X.Borg,B,48.57,3.65,0.71,Fighter
+86.0,,Vale,B,49.74,0.07,0.4,Mage
+87.0,,Lylia,B,48.57,0.59,0.88,Mage
+88.0,,Eudora,B,49.22,0.92,0.54,Mage
+89.0,,Cecilion,B,49.0,0.1,0.67,Mage
+90.0,,Beatrix,B,48.49,0.24,0.84,Marksman
+91.0,,Selena,B,48.49,0.63,0.8,Assassin Mage
+92.0,,Lesley,B,46.64,3.5,1.4,Marksman Assassin
+93.0,,Novaria,B,48.64,0.41,0.72,Mage
+94.0,,Bane,B,49.36,0.07,0.35,Fighter Mage
+95.0,,Lukas,B,48.89,0.77,0.49,Fighter
+96.0,,Aulus,B,49.82,0.05,0.11,Fighter
+97.0,,Johnson,C,48.21,1.19,0.62,Tank Support
+98.0,,Pharsa,C,48.27,0.14,0.66,Mage
+99.0,,Franco,C,45.08,8.8,1.36,Tank
+100.0,,Bruno,C,49.18,0.05,0.21,Marksman
+101.0,,Aldous,C,48.52,0.19,0.3,Fighter
+102.0,,Jawhead,C,48.35,0.13,0.33,Fighter
+103.0,,Roger,C,48.3,0.06,0.34,Fighter Marksman
+104.0,,Barats,C,48.71,0.05,0.13,Tank Fighter
+105.0,,Paquito,C,47.94,0.22,0.44,Fighter Assassin
+106.0,,Hylos,D,48.02,0.19,0.35,Tank
+107.0,,Chang'e,D,46.94,0.21,0.85,Mage
+108.0,,Yin,D,47.55,0.57,0.37,Fighter Assassin
+109.0,,Cici,D,47.17,0.53,0.53,Fighter
+110.0,,Chip,D,47.98,0.45,0.08,Support Tank
+111.0,,Chou,D,45.58,1.8,1.01,Fighter
+112.0,,Martis,D,47.09,0.17,0.43,Fighter
+113.0,,Aurora,D,47.39,0.06,0.28,Mage
+114.0,,Nana,D,45.8,0.82,0.96,Mage
+115.0,,Harith,D,47.3,0.08,0.27,Mage
+116.0,,Wanwan,D,47.0,0.14,0.19,Marksman
+117.0,,Luo Yi,D,46.89,0.08,0.24,Mage
+118.0,,Kalea,D,46.58,1.05,0.29,Support Fighter
+119.0,,Granger,D,42.98,1.71,1.87,Marksman
+120.0,,Gatotkaca,D,45.91,0.17,0.56,Tank Fighter
+121.0,,Ling,D,46.44,0.1,0.27,Assassin
+122.0,,Zilong,D,46.04,0.28,0.43,Fighter Assassin
+123.0,,Fanny,D,43.91,4.79,0.92,Assassin
+124.0,,Karina,D,45.31,0.64,0.46,Assassin
+125.0,,Layla,D,45.18,0.4,0.48,Marksman
+126.0,,Mathilda,D,45.55,0.24,0.17,Support Assassin
+127.0,,Lancelot,D,43.39,1.31,1.0,Assassin
+128.0,,Alpha,D,44.36,0.1,0.64,Fighter
+129.0,,Valentina,D,44.52,0.44,0.25,Mage
+130.0,,Esmeralda,D,43.41,0.71,0.69,Mage Tank
+131.0,,Dyrroth,D,43.36,0.09,0.26,Fighter
+132.0,,Balmond,D,41.97,0.15,0.2,Fighter
