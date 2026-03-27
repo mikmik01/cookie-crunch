@@ -1,0 +1,133 @@
+rank,lane,hero,tier,win_rate,ban_rate,pick_rate,roles
+1,Exp,Gloo,SS,54.89,92.48,0.57,Tank
+2,Exp,Sora,SS,52.72,86.06,1.11,Fighter Assassin
+3,Gold,Freya,SS,51.64,70.07,1.25,Fighter
+4,Roam,Marcel,SS,49.72,78.22,0.38,Support
+5,Jungle,Guinevere,SS,52.31,50.28,1.55,Fighter
+6,Roam,Estes,S,54.56,29.23,0.87,Support
+7,Roam,Helcurt,S,51.42,43.06,0.81,Assassin
+8,Gold,Hanabi,S,53.31,8.6,2.93,Marksman
+9,Exp,Minsitthar,S,52.34,30.47,1.0,Fighter
+10,Roam,Floryn,S,54.19,17.79,1.26,Support
+11,Jungle,Yi Sun-shin,S,49.95,31.35,2.08,Assassin Marksman
+12,Exp,Hilda,S,52.82,27.18,1.01,Fighter Tank
+13,Jungle,Fredrinn,S,52.47,27.36,1.02,Fighter Tank
+14,Gold,Karrie,S,52.0,23.3,1.57,Marksman
+15,Mid,Zhuxin,S,52.75,26.96,0.73,Mage
+16,Mid,Zetian,S,51.53,17.47,1.98,Mage
+17,Exp,Alice,S,51.0,29.01,1.04,Mage Tank
+18,Roam,Kaja,S,56.41,6.38,0.4,Support Fighter
+19,Roam,Diggie,S,55.42,11.88,0.25,Support
+20,Exp,Masha,S,57.41,0.55,0.15,Fighter Tank
+21,Roam,Lolita,S,56.81,0.96,0.19,Support Tank
+22,Jungle,Gusion,S,50.06,16.59,2.03,Assassin
+23,Jungle,Suyou,S,52.01,7.2,1.93,Assassin Fighter
+24,Mid,Kadita,S,52.89,10.57,1.14,Mage Assassin
+25,Gold,Natan,S,54.12,3.27,1.04,Marksman
+26,Exp,Sun,S,51.78,9.82,1.52,Fighter
+27,Jungle,Harley,S,52.55,5.02,1.44,Assassin Mage
+28,Mid,Gord,S,54.84,0.27,0.68,Mage
+29,Jungle,Leomord,S,52.08,9.95,1.05,Fighter
+30,Roam,Minotaur,S,53.68,4.31,0.6,Tank Support
+31,Jungle,Aamon,S,51.17,12.23,0.8,Assassin
+32,Mid,Valir,A,52.8,1.6,0.96,Mage
+33,Roam,Khufra,A,54.03,1.08,0.35,Tank
+34,Exp,Silvanna,A,52.53,1.2,0.99,Fighter
+35,Exp,Khaleed,A,53.31,0.63,0.45,Fighter
+36,Gold,Miya,A,51.03,1.71,1.49,Marksman
+37,Exp,Benedetta,A,52.43,1.53,0.75,Assassin Fighter
+38,Gold,Obsidia,A,51.84,2.13,0.8,Marksman
+39,Gold,Ruby,A,52.21,0.43,0.7,Fighter
+40,Gold,Irithel,A,52.64,0.16,0.48,Marksman
+41,Exp,Badang,A,51.03,1.76,1.08,Fighter
+42,Gold,Clint,A,51.46,0.77,0.95,Marksman
+43,Mid,Yve,A,53.07,0.07,0.15,Mage
+44,Gold,Moskov,A,51.03,0.26,1.16,Marksman
+45,Roam,Angela,A,48.1,9.02,1.71,Support
+46,Mid,Vexana,A,49.64,0.85,1.71,Mage
+47,Exp,Yu Zhong,A,50.48,2.94,1.06,Fighter
+48,Jungle,Natalia,A,52.1,1.76,0.27,Assassin
+49,Exp,Phoveus,A,51.23,1.89,0.7,Fighter
+50,Gold,Brody,A,51.48,0.49,0.71,Marksman
+51,Mid,Kagura,A,51.07,0.98,0.85,Mage
+52,Gold,Melissa,A,51.83,0.39,0.49,Marksman
+53,Mid,Cyclops,A,51.22,0.27,0.81,Mage
+54,Roam,Carmilla,A,51.52,0.57,0.62,Support Tank
+55,Jungle,Hanzo,A,50.41,8.35,0.42,Assassin
+56,Jungle,Akai,A,51.25,1.93,0.59,Tank
+57,Exp,Uranus,A,51.38,0.54,0.52,Tank
+58,Jungle,Saber,A,49.68,8.43,0.59,Assassin
+59,Jungle,Hayabusa,A,49.31,4.42,1.17,Assassin
+60,Mid,Odette,A,50.94,0.27,0.71,Mage
+61,Jungle,Julian,A,50.25,1.13,0.96,Fighter Mage
+62,Roam,Grock,A,48.45,9.6,0.96,Tank Fighter
+63,Roam,Rafaela,A,51.51,0.87,0.25,Support
+64,Mid,Faramis,A,51.58,0.78,0.14,Support Mage
+65,Roam,Atlas,A,50.66,1.14,0.57,Tank
+66,Mid,Zhask,A,51.39,0.11,0.27,Mage
+67,Gold,Claude,A,49.44,0.48,1.14,Marksman
+68,Gold,Popol and Kupa,A,51.14,0.1,0.23,Marksman
+69,Exp,Argus,B,50.94,0.29,0.26,Fighter
+70,Exp,Thamuz,B,49.3,1.83,0.93,Fighter
+71,Exp,Lapu-Lapu,B,49.72,0.76,0.82,Fighter
+72,Jungle,Nolan,B,50.58,0.27,0.41,Assassin
+73,Roam,Tigreal,B,45.67,6.39,2.28,Tank
+74,Exp,Terizla,B,50.36,0.16,0.46,Fighter
+75,Mid,Xavier,B,49.97,0.12,0.65,Mage
+76,Mid,Kimmy,B,48.9,0.96,1.11,Marksman Mage
+77,Gold,Ixia,B,49.04,2.86,0.84,Marksman
+78,Roam,Belerick,B,48.85,3.13,0.91,Tank
+79,Jungle,Alucard,B,49.86,0.44,0.61,Fighter Assassin
+80,Mid,Lunox,B,50.06,0.28,0.47,Mage
+81,Jungle,Joy,B,49.98,1.07,0.41,Assassin
+82,Exp,X.Borg,B,48.78,3.78,0.73,Fighter
+83,Jungle,Baxia,B,50.44,0.22,0.15,Tank
+84,Mid,Lylia,B,48.88,0.66,0.9,Mage
+85,Mid,Vale,B,49.83,0.08,0.43,Mage
+86,Exp,Edith,B,50.23,0.07,0.21,Tank Marksman
+87,Mid,Eudora,B,49.33,1.02,0.57,Mage
+88,Exp,Arlott,B,49.3,0.72,0.57,Fighter Assassin
+89,Mid,Cecilion,B,49.16,0.11,0.69,Mage
+90,Mid,Novaria,B,48.86,0.46,0.73,Mage
+91,Mid,Selena,B,48.58,0.74,0.84,Assassin Mage
+92,Gold,Lesley,B,46.75,3.73,1.46,Marksman Assassin
+93,Gold,Bane,B,49.54,0.08,0.35,Fighter Mage
+94,Gold,Beatrix,B,48.46,0.24,0.83,Marksman
+95,Exp,Aulus,B,49.88,0.05,0.12,Fighter
+96,Jungle,Lukas,B,48.82,0.75,0.47,Fighter
+97,Roam,Johnson,B,48.24,1.31,0.66,Tank Support
+98,Gold,Bruno,C,49.23,0.05,0.19,Marksman
+99,Mid,Pharsa,C,48.33,0.15,0.64,Mage
+100,Roam,Franco,C,45.16,8.77,1.38,Tank
+101,Jungle,Roger,C,48.7,0.06,0.35,Fighter Marksman
+102,Exp,Aldous,C,48.7,0.2,0.31,Fighter
+103,Jungle,Barats,C,48.93,0.06,0.13,Tank Fighter
+104,Roam,Jawhead,C,48.5,0.15,0.34,Fighter
+105,Mid,Chang'e,C,47.32,0.23,0.86,Mage
+106,Exp,Paquito,C,47.94,0.24,0.44,Fighter Assassin
+107,Roam,Hylos,C,48.05,0.2,0.35,Tank
+108,Jungle,Yin,D,47.54,0.65,0.39,Fighter Assassin
+109,Gold,Cici,D,47.21,0.6,0.53,Fighter
+110,Mid,Nana,D,45.94,0.93,1.04,Mage
+111,Roam,Chip,D,47.85,0.48,0.08,Support Tank
+112,Gold,Wanwan,D,47.69,0.15,0.19,Marksman
+113,Mid,Aurora,D,47.35,0.06,0.28,Mage
+114,Roam,Chou,D,45.56,1.86,1.0,Fighter
+115,Jungle,Martis,D,46.75,0.19,0.45,Fighter
+116,Mid,Luo Yi,D,46.94,0.08,0.24,Mage
+117,Roam,Kalea,D,46.29,1.09,0.29,Support Fighter
+118,Gold,Harith,D,46.45,0.08,0.26,Mage
+119,Roam,Gatotkaca,D,45.74,0.18,0.57,Tank Fighter
+120,Jungle,Ling,D,46.34,0.1,0.26,Assassin
+121,Gold,Granger,D,42.91,1.86,1.84,Marksman
+122,Exp,Zilong,D,45.86,0.29,0.47,Fighter Assassin
+123,Jungle,Fanny,D,43.92,4.83,0.9,Assassin
+124,Gold,Layla,D,45.26,0.43,0.53,Marksman
+125,Jungle,Karina,D,45.2,0.73,0.49,Assassin
+126,Jungle,Alpha,D,44.59,0.11,0.68,Fighter
+127,Roam,Mathilda,D,45.51,0.24,0.16,Support Assassin
+128,Jungle,Lancelot,D,43.63,1.32,0.97,Assassin
+129,Exp,Esmeralda,D,43.53,0.77,0.68,Mage Tank
+130,Mid,Valentina,D,44.32,0.43,0.23,Mage
+131,Exp,Dyrroth,D,43.3,0.1,0.28,Fighter
+132,Jungle,Balmond,D,41.82,0.16,0.2,Fighter

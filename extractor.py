@@ -1,8 +1,41 @@
 from bs4 import BeautifulSoup
 from schemas import STAT_FIELDS
+import hashlib
 
 def clean_text(val: str) ->  str:
     return " ".join(val.strip().split())
+
+def get_lane_signature(cell) -> str:
+    svg = cell.find("svg")
+    if not svg:
+        return ""
+    
+    path = svg.find("path")
+    if not path:
+        return ""
+    
+    d = (path.get("d") or "").strip()
+    if not d:
+        return ""
+    
+    return d[:50]
+
+LANE_SIGNATURES = {
+    "M244.151,1337.62H231": "Mid",
+    "M495.652,1298.32": "Gold",
+    "M649.568,1290.79": "Exp",
+    "M341.818,1307.34v-4": "Jungle",
+    "M113.575,1329.5a9": "Roam"
+}
+
+def parse_lane(cell) -> str:
+    sig = get_lane_signature(cell)
+
+    for prefix, lane in LANE_SIGNATURES.items():
+        if sig.startswith(prefix):
+            return lane
+
+    return "Unknown"
 
 def extract_stats(html: str) -> list[dict]:
     soup = BeautifulSoup(html, "html.parser")
@@ -28,7 +61,7 @@ def extract_stats(html: str) -> list[dict]:
 
         record = {
             "rank": values[0],
-            "lane": values[1],
+            "lane": parse_lane(cells[1]),
             "hero": values[2],
             "tier": values[3],
             "win_rate": values[4],

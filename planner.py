@@ -2,7 +2,7 @@ import os
 import json
 from typing import Any
 import google.generativeai as genai
-from config import SYSTEM_PROMPT
+from config import SYSTEM_PROMPT, DEFAULT_PLAN
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -13,6 +13,12 @@ if not api_key:
 genai.configure(api_key=api_key)
 MODEL = "gemini-2.5-flash"
 model = genai.GenerativeModel(MODEL)
+
+def get_plan(user_query: str) -> dict:
+    try:
+        return get_plan_from_llm(user_query)
+    except Exception:
+        return DEFAULT_PLAN.copy()
 
 def get_plan_from_llm(user_query: str) -> dict:
     response = model.generate_content(

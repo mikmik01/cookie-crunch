@@ -6,31 +6,33 @@ def dataframe_to_text(df: pd.DataFrame) -> str:
     return df.to_string(index=False)
 
 def build_report(
-    task_type: str,
-    raw_rows: int,
-    cleaned_rows: int,
-    issue_count: int,
-    insight_df: pd.DataFrame,
+    analyst_output: dict
 ) -> str:
-    title_map = {
-        "summarize_meta": "MLBB Meta Summary",
-        "find_underrated_heroes": "MLBB Underrated Heroes",
-        "find_overbanned_heroes": "MLBB Overbanned Heroes",
-    }
-
-    title = title_map.get(task_type, "MLBB Report")
-
     lines = [
-        f"# {title}",
-        "",
-        "## Data Summary",
-        f"- Raw rows: {raw_rows}",
-        f"- Cleaned rows: {cleaned_rows}",
-        f"- Validation issues: {issue_count}",
-        "",
+        f"# {analyst_output.get('headline', 'MLBB Meta Report')}",
+        ""
     ]
 
-    lines.append("## Results")
-    lines.append(dataframe_to_text(insight_df))
+    key_findings = analyst_output.get("key_findings", [])
+    if key_findings:
+        lines.append("## Key Findings")
+        for i, item in enumerate(key_findings, start=1):
+            lines.append(f"### Finding {i}")
+            lines.append(f"- {item.get('claim', '')}")
+            lines.append(f"- {item.get('evidence', '')}")
+            lines.append(f"- Confidence: {item.get('confidence', '')}")
+            lines.append("")
+    
+    meta_summary = analyst_output.get("meta_summary")
+    if meta_summary:
+        lines.append("## Summary")
+        lines.append(meta_summary)
+        lines.append("")
+
+    # caveats = analyst_output.get("caveats", [])
+    # if caveats:
+    #     lines.append("## Caveats")
+    #     for c in caveats:
+    #         lines.append(f"- {c}")
 
     return "\n".join(lines)

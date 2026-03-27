@@ -5,6 +5,8 @@ BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
 RAW_DIR = DATA_DIR / "raw"
 CLEAN_DIR = DATA_DIR / "clean"
+PROCESSED_DIR = DATA_DIR / "processed"
+REPORT_DIR = DATA_DIR / "reports"
 
 TIMEOUT = 15
 USER_AGENT = (

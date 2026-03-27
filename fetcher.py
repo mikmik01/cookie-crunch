@@ -16,14 +16,14 @@ def fetch_page_edge(url: str) -> str:
     with sync_playwright() as p:
         browser = p.chromium.launch(channel="msedge", headless=True)
         page = browser.new_page(user_agent=USER_AGENT)
-        page.goto(url, wait_until="domcontentloaded", timeout=60000)
-        page.wait_for_selector("table tbody tr", timeout=60000)
+        page.goto(url, wait_until="domcontentloaded", timeout=PLAYWRIGHT_TIMEOUT_MS)
+        page.wait_for_selector("table tbody tr", timeout=PLAYWRIGHT_TIMEOUT_MS)
+        page.wait_for_timeout(2000)
         
         prev_count = 0
 
         for i in range(60):
             rows = page.locator("table tbody tr").count()
-            print(f"Loop {i}: {rows} rows")
 
             if rows == prev_count and i > 3:
                 break
@@ -37,9 +37,4 @@ def fetch_page_edge(url: str) -> str:
         return html
     
 def fetch_page(url: str) -> str:
-    html = fetch_page_requests(url)
-
-    if "Rank" in html and "Hero" in html and "Win rate" in html:
-        return html
-
     return fetch_page_edge(url)

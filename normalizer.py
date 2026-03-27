@@ -27,7 +27,7 @@ def normalize_rank(val) -> int | None:
         return None
     
     try:
-        return float(text)
+        return int(text)
     except ValueError:
         return None
     

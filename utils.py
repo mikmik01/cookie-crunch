@@ -7,6 +7,9 @@ def ensure_dir(path: Path) -> None:
 def current_timestamp() -> str:
     return datetime.now().strftime("%Y-%m-%d_%H%M%S")
 
+def get_today() -> str:
+    return datetime.now().strftime("%Y-%m-%d")
+
 def save_text(text: str, path: Path) -> None:
     ensure_dir(path.parent)
     path.write_text(text, encoding="utf-8")
@@ -38,3 +41,4 @@ def _to_int_or_default(value, default=10):
         return ivalue if ivalue > 0 else default
     except (TypeError, ValueError):
         return default
+
