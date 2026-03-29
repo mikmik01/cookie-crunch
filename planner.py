@@ -1,4 +1,5 @@
 import os
+import re
 import json
 from typing import Any
 import google.generativeai as genai
@@ -26,8 +27,7 @@ def get_plan_from_llm(user_query: str) -> dict:
     )
 
     text = response.text.strip()
-
-    if text.startswith("```"):
-        text = text.strip("```").strip("json").strip()
+    text = re.sub(r"^```(?:json)?\s*", "", text)
+    text = re.sub(r"\s*```$", "", text)
 
     return json.loads(text)

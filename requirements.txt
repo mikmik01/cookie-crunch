@@ -3,4 +3,7 @@ requests
 beautifulsoup4
 lxml
 playwright
-openai
+google-generativeai
+python-dotenv
+fastapi
+uvicorn[standard]

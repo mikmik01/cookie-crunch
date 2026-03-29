@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 from schemas import STAT_FIELDS
-import hashlib
 
 def clean_text(val: str) ->  str:
     return " ".join(val.strip().split())

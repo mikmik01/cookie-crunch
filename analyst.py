@@ -1,5 +1,6 @@
 import json
 import os
+import re
 
 import google.generativeai as genai
 import pandas as pd
@@ -126,7 +127,7 @@ def analyze_meta(
     )
 
     text = response.text.strip()
-    if text.startswith("```"):
-        text = text[4:].strip()
+    text = re.sub(r"^```(?:json)?\s*", "", text)
+    text = re.sub(r"\s*```$", "", text)
 
     return json.loads(text)

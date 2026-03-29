@@ -20,25 +20,9 @@ def build_raw_html_path(dir: Path, ts: str) -> Path:
 def build_csv_path(dir: Path, ts: str) -> Path:
     return dir / f"stats_{ts}.csv"
 
-def build_clean_csv_path(dir: Path, timestamp: str) -> Path:
-    return dir / f"stats_cleaned_{timestamp}.csv"
+def build_clean_csv_path(dir: Path, ts: str) -> Path:
+    return dir / f"stats_cleaned_{ts}.csv"
 
-
-def build_issues_csv_path(dir: Path, timestamp: str) -> Path:
-    return dir / f"stats_issues_{timestamp}.csv"
-
-def _to_float_or_none(value):
-    if value is None:
-        return None
-    try:
-        return float(value)
-    except (TypeError, ValueError):
-        return None
-
-def _to_int_or_default(value, default=10):
-    try:
-        ivalue = int(value)
-        return ivalue if ivalue > 0 else default
-    except (TypeError, ValueError):
-        return default
+def build_issues_csv_path(dir: Path, ts: str) -> Path:
+    return dir / f"stats_issues_{ts}.csv"
 
