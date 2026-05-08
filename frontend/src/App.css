@@ -1,0 +1,78 @@
+.page {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: #f5f5f5;
+  color: #111827;
+  font-family: Arial, sans-serif;
+}
+
+.panel {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 28px;
+}
+
+h1 {
+  margin: 0 0 8px;
+}
+
+.subtitle {
+  margin: 0 0 24px;
+  color: #4b5563;
+}
+
+.inputGroup {
+  margin-bottom: 16px;
+}
+
+.inputGroup label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.inputRow {
+  display: flex;
+  gap: 8px;
+}
+
+.inputRow input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.inputRow button {
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: #111827;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.inputRow button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.status {
+  margin: 12px 0;
+  color: #4b5563;
+}
+
+.reportBox {
+  min-height: 320px;
+  padding: 18px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fafafa;
+  white-space: pre-wrap;
+  font-family: Consolas, Monaco, monospace;
+}

@@ -3,9 +3,6 @@ import sys
 import os
 import pandas as pd
 from datetime import datetime
-from pathlib import Path
-from typing import AsyncGenerator
-
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config import SRC_URL, CLEAN_DIR, PROCESSED_DIR, RAW_DIR, REPORT_DIR
@@ -124,7 +121,7 @@ def run_pipeline(user_query: str):
         "query": user_query,
         "plan": plan,
         "analyst_output": analyst_output,
-        "report_markdown": report_markdown,
+        "report_md": report_markdown,
         "issue_count": int(len(df_issues)),
         "hero_count": int(len(df_filtered)),
         "generated_at": datetime.utcnow().isoformat(),
