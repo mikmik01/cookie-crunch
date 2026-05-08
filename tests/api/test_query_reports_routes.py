@@ -40,7 +40,7 @@ def client_and_db():
 def test_query_route_saves_pipeline_result_to_db(client_and_db, monkeypatch):
     client, TestingSessionLocal = client_and_db
 
-    def fake_execute_pipeline(user_query: str):
+    def fake_execute_pipeline(user_query: str, db):
         yield (
             "done",
             "Report ready.",

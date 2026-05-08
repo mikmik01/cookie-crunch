@@ -3,10 +3,15 @@ from sqlalchemy.orm import Session
 
 from api.db import get_db
 from api.models import QueryRequest, QueryResponse
-from api.pipeline import run_pipeline
 from api.repositories.reports import save_query_report
 
 router = APIRouter()
+
+
+def execute_pipeline(user_query: str, db: Session):
+    from api.pipeline import run_pipeline
+
+    return run_pipeline(user_query, db=db)
 
 
 @router.post("/query", response_model=QueryResponse)
@@ -14,7 +19,7 @@ def run_query(request: QueryRequest, db: Session = Depends(get_db)):
     try:
         final_result = None
 
-        for step, message, result in run_pipeline(request.query):
+        for step, message, result in execute_pipeline(request.query, db):
             if step == "done":
                 final_result = result
 

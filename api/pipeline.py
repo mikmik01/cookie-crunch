@@ -1,11 +1,35 @@
-import re
-import sys
-import os
-import pandas as pd
-from datetime import datetime
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# import re
+# import sys
+# import os
+# import pandas as pd
+# from datetime import datetime
+# sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from config import SRC_URL, CLEAN_DIR, PROCESSED_DIR, RAW_DIR, REPORT_DIR
+# from config import SRC_URL, CLEAN_DIR, PROCESSED_DIR, RAW_DIR, REPORT_DIR
+# from fetcher import fetch_page
+# from extractor import extract_stats
+# from normalizer import normalize_df
+# from planner import get_plan
+# from validator import validate_df, validate_and_repair_plan
+# from analyst import analyze_meta
+# from report import build_report
+# from schemas import STAT_FIELDS
+# from ranker import rank_candidates
+# from utils import (
+#     build_csv_path,
+#     build_clean_csv_path,
+#     build_issues_csv_path,
+#     current_timestamp,
+#     ensure_dir,
+#     get_today
+# )
+
+from datetime import date, datetime
+
+import pandas as pd
+from sqlalchemy.orm import Session
+
+from config import SRC_URL
 from fetcher import fetch_page
 from extractor import extract_stats
 from normalizer import normalize_df
@@ -15,15 +39,11 @@ from analyst import analyze_meta
 from report import build_report
 from schemas import STAT_FIELDS
 from ranker import rank_candidates
-from utils import (
-    build_csv_path,
-    build_clean_csv_path,
-    build_issues_csv_path,
-    current_timestamp,
-    ensure_dir,
-    get_today
-)
 
+from api.repositories.stats import (
+    get_stats_for_date,
+    save_scrape_run_with_stats,
+)
 
 def apply_filters(df: pd.DataFrame, filters: dict) -> pd.DataFrame:
     f = filters
@@ -59,44 +79,34 @@ def find_latest_csv_for_day(folder, prefix: str, day: str):
     return max(matches, key=lambda p: p.stat().st_mtime)
 
 
-def run_pipeline(user_query: str):
+def run_pipeline(user_query: str, db: Session):
     raw_plan = get_plan(user_query=user_query)
     plan = validate_and_repair_plan(raw_plan)
 
-    for d in (RAW_DIR, CLEAN_DIR, PROCESSED_DIR, REPORT_DIR):
-        ensure_dir(d)
-    
-    ts = current_timestamp()
-    today = get_today()
+    today = date.today()
+    stats = get_stats_for_date(db, today)
 
-    raw_csv = find_latest_csv_for_day(PROCESSED_DIR, "stats", today)
-
-    if raw_csv is None:
+    if stats is None:
         html = fetch_page(SRC_URL)
         rows = extract_stats(html)
-        df_raw = pd.DataFrame(rows, columns=STAT_FIELDS)
-        raw_csv_path = build_csv_path(PROCESSED_DIR, ts)
-        df_raw.to_csv(raw_csv_path, index=False, encoding="utf-8")
-    else:
-        df_raw = pd.read_csv(raw_csv)
-    
-    clean_csv = find_latest_csv_for_day(CLEAN_DIR, "stats_cleaned", today)
-    issues_csv = find_latest_csv_for_day(CLEAN_DIR, "stats_issues", today)
 
-    if clean_csv is not None and issues_csv is not None:
-        df_clean = pd.read_csv(clean_csv)
-        try:
-            df_issues = pd.read_csv(issues_csv)
-        except pd.errors.EmptyDataError:
-            df_issues = pd.DataFrame(
-                columns=["row_index", "hero", "field", "issue", "value"]
-            )
-    else:
+        df_raw = pd.DataFrame(rows, columns=STAT_FIELDS)
         df_norm = normalize_df(df_raw)
         df_clean, df_issues = validate_df(df_norm)
-        df_clean.to_csv(build_clean_csv_path(CLEAN_DIR, ts), index=False, encoding="utf-8")
-        df_issues.to_csv(build_issues_csv_path(CLEAN_DIR, ts), index=False, encoding="utf-8")
-    
+
+        issue_count = int(len(df_issues))
+
+        save_scrape_run_with_stats(
+            db=db,
+            source=SRC_URL,
+            scraped_for_date=today,
+            df_clean=df_clean,
+            issue_count=issue_count,
+        )
+    else:
+        df_clean = pd.DataFrame(stats["heroes"])
+        issue_count = int(stats["issue_count"])
+
     df_filtered = apply_filters(df_clean.copy(), {**plan["filters"], "top_n": None})
 
     df_filtered = rank_candidates(
@@ -104,7 +114,7 @@ def run_pipeline(user_query: str):
         task_type=plan["task_type"],
         top_n=plan["filters"].get("top_n", 10),
     )
-    
+
     if df_filtered.empty:
         raise ValueError(
             f"Filters returned 0 heroes. Try relaxing your query. "
@@ -114,22 +124,21 @@ def run_pipeline(user_query: str):
     analyst_output = analyze_meta(
         user_query=user_query,
         df_clean=df_filtered,
-        issue_count=len(df_issues),
+        issue_count=issue_count,
     )
 
-    report_markdown = build_report(analyst_output=analyst_output)
- 
+    report_md = build_report(analyst_output=analyst_output)
+
+    ts = datetime.utcnow().strftime("%Y-%m-%d_%H%M%S")
     report_id = f"report_{ts}"
-    report_path = REPORT_DIR / f"{report_id}.md"
-    save_report(report_markdown, report_path)
 
     result = {
         "report_id": report_id,
         "query": user_query,
         "plan": plan,
         "analyst_output": analyst_output,
-        "report_md": report_markdown,
-        "issue_count": int(len(df_issues)),
+        "report_md": report_md,
+        "issue_count": issue_count,
         "hero_count": int(len(df_filtered)),
         "generated_at": datetime.utcnow().isoformat(),
     }
