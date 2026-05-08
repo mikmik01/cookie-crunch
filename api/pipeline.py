@@ -1,29 +1,3 @@
-# import re
-# import sys
-# import os
-# import pandas as pd
-# from datetime import datetime
-# sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-# from config import SRC_URL, CLEAN_DIR, PROCESSED_DIR, RAW_DIR, REPORT_DIR
-# from fetcher import fetch_page
-# from extractor import extract_stats
-# from normalizer import normalize_df
-# from planner import get_plan
-# from validator import validate_df, validate_and_repair_plan
-# from analyst import analyze_meta
-# from report import build_report
-# from schemas import STAT_FIELDS
-# from ranker import rank_candidates
-# from utils import (
-#     build_csv_path,
-#     build_clean_csv_path,
-#     build_issues_csv_path,
-#     current_timestamp,
-#     ensure_dir,
-#     get_today
-# )
-
 from datetime import date, datetime
 
 import pandas as pd
@@ -33,9 +7,7 @@ from config import SRC_URL
 from fetcher import fetch_page
 from extractor import extract_stats
 from normalizer import normalize_df
-from planner import get_plan
 from validator import validate_df, validate_and_repair_plan
-from analyst import analyze_meta
 from report import build_report
 from schemas import STAT_FIELDS
 from ranker import rank_candidates
@@ -79,8 +51,24 @@ def find_latest_csv_for_day(folder, prefix: str, day: str):
     return max(matches, key=lambda p: p.stat().st_mtime)
 
 
+def get_pipeline_plan(user_query: str) -> dict:
+    from planner import get_plan
+
+    return get_plan(user_query=user_query)
+
+
+def run_analyst(user_query: str, df_clean: pd.DataFrame, issue_count: int) -> dict:
+    from analyst import analyze_meta
+
+    return analyze_meta(
+        user_query=user_query,
+        df_clean=df_clean,
+        issue_count=issue_count,
+    )
+
+
 def run_pipeline(user_query: str, db: Session):
-    raw_plan = get_plan(user_query=user_query)
+    raw_plan = get_pipeline_plan(user_query)
     plan = validate_and_repair_plan(raw_plan)
 
     today = date.today()
@@ -121,7 +109,7 @@ def run_pipeline(user_query: str, db: Session):
             f"Plan filters: {plan['filters']}"
         )
 
-    analyst_output = analyze_meta(
+    analyst_output = run_analyst(
         user_query=user_query,
         df_clean=df_filtered,
         issue_count=issue_count,

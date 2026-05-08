@@ -46,7 +46,7 @@ def test_pipeline_uses_existing_db_stats_without_fetching(monkeypatch):
 
     monkeypatch.setattr(
         pipeline,
-        "get_plan",
+        "get_pipeline_plan",
         lambda user_query: {
             "task_type": "summarize_meta",
             "filters": {
@@ -69,7 +69,7 @@ def test_pipeline_uses_existing_db_stats_without_fetching(monkeypatch):
 
     monkeypatch.setattr(
         pipeline,
-        "analyze_meta",
+        "run_analyst",
         lambda user_query, df_clean, issue_count: {
             "headline": "Meta Watch",
             "key_findings": [],
