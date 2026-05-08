@@ -2,11 +2,10 @@ from sqlalchemy import String, Integer, Float, Text, ForeignKey, Date, DateTime,
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from api.db import Base
 from datetime import datetime, date
-from uuid import uuid5
-
+from uuid import uuid4
 
 def uuid() -> str:
-    return str(uuid5())
+    return str(uuid4())
 
 
 class ScrapeRun(Base):
@@ -37,3 +36,20 @@ class HeroStatRow(Base):
     pick_rate: Mapped[float | None] = mapped_column(Float)
     roles: Mapped[str | None] = mapped_column(Text)
     scrape_run: Mapped["ScrapeRun"] = relationship(back_populates="hero_stats")
+
+
+class QueryReport(Base):
+    __tablename__ = "query_reports"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    query: Mapped[str] = mapped_column(Text, nullable=False)
+    plan_json: Mapped[str] = mapped_column(Text, nullable=False)
+    analyst_output_json: Mapped[str] = mapped_column(Text, nullable=False)
+    report_md: Mapped[str] = mapped_column(Text, nullable=False)
+    hero_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    issue_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )

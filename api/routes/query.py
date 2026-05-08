@@ -1,68 +1,41 @@
-import json
-import asyncio
-from fastapi import APIRouter
-from fastapi.responses import StreamingResponse
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
 
-from api.models import QueryRequest
+from api.db import get_db
+from api.models import QueryRequest, QueryResponse
 from api.pipeline import run_pipeline
+from api.repositories.reports import save_query_report
 
 router = APIRouter()
 
 
-def make_event(
-    step: str,
-    message: str,
-    done: bool = False,
-    error: str = None,
-    data: dict = None,
-) -> str:
-    payload = {"step": step, "message": message, "done": done}
-    if error:
-        payload["error"] = error
-    if data:
-        payload["data"] = data
-    return f"data: {json.dumps(payload)}\n\n"
+@router.post("/query", response_model=QueryResponse)
+def run_query(request: QueryRequest, db: Session = Depends(get_db)):
+    try:
+        final_result = None
 
+        for step, message, result in run_pipeline(request.query):
+            if step == "done":
+                final_result = result
 
-async def stream_pipeline(user_query: str):
-    loop = asyncio.get_running_loop()
-    queue: asyncio.Queue = asyncio.Queue()
+        if final_result is None:
+            raise HTTPException(
+                status_code=500,
+                detail="Pipeline completed without a report.",
+            )
 
-    def run():
-        try:
-            for step, message, result in run_pipeline(user_query):
-                loop.call_soon_threadsafe(queue.put_nowait, (step, message, result, None))
-        except Exception as e:
-            loop.call_soon_threadsafe(queue.put_nowait, ("error", str(e), None, e))
-        finally:
-            loop.call_soon_threadsafe(queue.put_nowait, None)
+        save_query_report(db, final_result)
 
-    loop.run_in_executor(None, run)
+        return QueryResponse(
+            report_id=final_result["report_id"],
+            query=final_result["query"],
+            plan=final_result["plan"],
+            analyst_output=final_result["analyst_output"],
+            report_md=final_result["report_md"],
+            generated_at=final_result["generated_at"],
+        )
 
-    while True:
-        item = await queue.get()
-        if item is None:
-            break
-
-        step, message, result, exc = item
-
-        if exc is not None:
-            yield make_event("error", "Pipeline failed.", done=True, error=str(exc))
-            break
-
-        if result is not None:
-            yield make_event("done", message, done=True, data=result)
-        else:
-            yield make_event(step, message)
-
-
-@router.post("/query")
-async def query_meta(request: QueryRequest):
-    return StreamingResponse(
-        stream_pipeline(request.query),
-        media_type="text/event-stream",
-        headers={
-            "Cache-Control": "no-cache",
-            "X-Accel-Buffering": "no",
-        },
-    )
+    except HTTPException:
+        raise
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))

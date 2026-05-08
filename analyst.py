@@ -8,6 +8,19 @@ from dotenv import load_dotenv
 
 from evidence import build_evidence_package
 
+from pydantic import BaseModel, ValidationError
+
+class AnalystFinding(BaseModel):
+    claim: str
+    evidence: str
+    confidence: str
+
+class AnalystResult(BaseModel):
+    headline: str
+    key_findings: list[AnalystFinding]
+    meta_summary: str
+    caveats: list[str] = []
+
 load_dotenv()
 api_key = os.getenv("GOOGLE_API_KEY")
 if not api_key:
@@ -37,7 +50,12 @@ def analyze_meta(
     text = re.sub(r"^```(?:json)?\s*", "", text)
     text = re.sub(r"\s*```$", "", text)
 
-    return json.loads(text)
+    try:
+        parsed = json.loads(text)
+        validated = AnalystResult.model_validate(parsed)
+        return validated.model_dump()
+    except (json.JSONDecodeError, ValidationError) as exc:
+        raise ValueError(f"Invalid analyst output schema: {exc}") from exc
 
 
 

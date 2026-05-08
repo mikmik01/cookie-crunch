@@ -14,6 +14,7 @@ from validator import validate_df, validate_and_repair_plan
 from analyst import analyze_meta
 from report import build_report
 from schemas import STAT_FIELDS
+from ranker import rank_candidates
 from utils import (
     build_csv_path,
     build_clean_csv_path,
@@ -96,8 +97,14 @@ def run_pipeline(user_query: str):
         df_clean.to_csv(build_clean_csv_path(CLEAN_DIR, ts), index=False, encoding="utf-8")
         df_issues.to_csv(build_issues_csv_path(CLEAN_DIR, ts), index=False, encoding="utf-8")
     
-    df_filtered = apply_filters(df_clean.copy(), plan["filters"])
- 
+    df_filtered = apply_filters(df_clean.copy(), {**plan["filters"], "top_n": None})
+
+    df_filtered = rank_candidates(
+        df_filtered,
+        task_type=plan["task_type"],
+        top_n=plan["filters"].get("top_n", 10),
+    )
+    
     if df_filtered.empty:
         raise ValueError(
             f"Filters returned 0 heroes. Try relaxing your query. "

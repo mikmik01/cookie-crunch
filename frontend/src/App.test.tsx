@@ -1,7 +1,14 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, test, vi, beforeEach, afterEach } from "vitest";
 import App from "./App";
+
+function mockJsonResponse(body: unknown, ok = true) {
+  return Promise.resolve({
+    ok,
+    json: async () => body,
+  });
+}
 
 describe("App", () => {
   beforeEach(() => {
@@ -12,58 +19,113 @@ describe("App", () => {
     vi.unstubAllGlobals();
   });
 
-  test("renders query input and empty report output", () => {
-    render(<App />);
-
-    expect(screen.getByRole("heading", { name: /mlbb meta drafter/i })).toBeInTheDocument();
-    expect(screen.getByLabelText(/query/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /generate report/i })).toBeInTheDocument();
-    expect(screen.getByText(/no report generated yet/i)).toBeInTheDocument();
-  });
-
-  test("submits query and displays returned report", async () => {
-    const user = userEvent.setup();
-
+  test("loads saved report history on page load", async () => {
     vi.stubGlobal(
       "fetch",
-      vi.fn().mockResolvedValue({
-        ok: true,
-        text: async () =>
-          'data: {"step":"done","message":"Report ready.","done":true,"data":{"report_id":"report_2026-05-08_120000","query":"summarize the current meta","report_md":"# Mid Lane Meta Watch\\n\\nCecilion is strong."}}',
+      vi.fn((url) => {
+        if (url === "/reports") {
+          return mockJsonResponse({
+            reports: [
+              {
+                report_id: "report_new",
+                filename: "report_new.md",
+                created_at: "2026-05-08T12:00:00Z",
+              },
+              {
+                report_id: "report_old",
+                filename: "report_old.md",
+                created_at: "2026-05-08T10:00:00Z",
+              },
+            ],
+          });
+        }
+
+        return mockJsonResponse({});
       })
     );
 
     render(<App />);
 
-    const input = screen.getByLabelText(/query/i);
-    await user.clear(input);
-    await user.type(input, "summarize the current meta");
-    await user.click(screen.getByRole("button", { name: /generate report/i }));
-
-    expect(fetch).toHaveBeenCalledWith("/query", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: "summarize the current meta",
-      }),
-    });
-
-    expect(await screen.findByText(/mid lane meta watch/i)).toBeInTheDocument();
-    expect(screen.getByText(/cecilion is strong/i)).toBeInTheDocument();
+    expect(await screen.findByText("report_new")).toBeInTheDocument();
+    expect(screen.getByText("report_old")).toBeInTheDocument();
   });
 
-  test("shows an error message when report generation fails", async () => {
+  test("loads selected saved report into output area", async () => {
     const user = userEvent.setup();
 
     vi.stubGlobal(
       "fetch",
-      vi.fn().mockResolvedValue({
-        ok: false,
-        json: async () => ({
-          detail: "No local reports found.",
-        }),
+      vi.fn((url) => {
+        if (url === "/reports") {
+          return mockJsonResponse({
+            reports: [
+              {
+                report_id: "report_new",
+                filename: "report_new.md",
+                created_at: "2026-05-08T12:00:00Z",
+              },
+            ],
+          });
+        }
+
+        if (url === "/reports/report_new") {
+          return mockJsonResponse({
+            report_id: "report_new",
+            filename: "report_new.md",
+            content: "# Saved Report\n\nThis came from DB.",
+            created_at: "2026-05-08T12:00:00Z",
+          });
+        }
+
+        return mockJsonResponse({});
+      })
+    );
+
+    render(<App />);
+
+    await user.click(await screen.findByText("report_new"));
+
+    const reportOutput = screen.getByLabelText(/report output/i);
+
+    expect(await within(reportOutput).findByText(/# Saved Report/i)).toBeInTheDocument();
+    expect(within(reportOutput).getByText(/this came from db/i)).toBeInTheDocument();
+  });
+
+  test("generates report, displays it, and refreshes history", async () => {
+    const user = userEvent.setup();
+
+    vi.stubGlobal(
+      "fetch",
+      vi.fn((url, options) => {
+        if (url === "/reports") {
+          return mockJsonResponse({
+            reports: [
+              {
+                report_id: "report_generated",
+                filename: "report_generated.md",
+                created_at: "2026-05-08T12:00:00Z",
+              },
+            ],
+          });
+        }
+
+        if (url === "/query" && options?.method === "POST") {
+          return mockJsonResponse({
+            report_id: "report_generated",
+            query: "summarize the current meta",
+            plan: {},
+            analyst_output: {
+              headline: "Generated Meta Watch",
+              key_findings: [],
+              meta_summary: "Generated report body.",
+              caveats: [],
+            },
+            report_md: "# Generated Meta Watch\n\nGenerated report body.",
+            generated_at: "2026-05-08T12:00:00Z",
+          });
+        }
+
+        return mockJsonResponse({});
       })
     );
 
@@ -71,6 +133,7 @@ describe("App", () => {
 
     await user.click(screen.getByRole("button", { name: /generate report/i }));
 
-    expect(await screen.findByText(/no local reports found/i)).toBeInTheDocument();
+    expect(await screen.findByText(/generated meta watch/i)).toBeInTheDocument();
+    expect(screen.getByText("report_generated")).toBeInTheDocument();
   });
 });
