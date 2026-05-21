@@ -1,3 +1,7 @@
+import logging
+import traceback
+
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -7,10 +11,11 @@ from backend.app.db.repositories.reports import save_query_report
 
 router = APIRouter()
 
+logger = logging.getLogger("uvicorn.error")
+
 
 def execute_pipeline(user_query: str, db: Session):
     from backend.app.services.pipeline import run_pipeline
-
     return run_pipeline(user_query, db=db)
 
 
@@ -24,10 +29,10 @@ def run_query(request: QueryRequest, db: Session = Depends(get_db)):
                 final_result = result
 
         if final_result is None:
-            raise HTTPException(
-                status_code=500,
-                detail="Pipeline completed without a report.",
-            )
+            raise RuntimeError("Pipeline completed without a report.")
+
+        final_result.setdefault("analyst_output", {})
+        final_result.setdefault("report_md", "")
 
         save_query_report(db, final_result)
 
@@ -35,12 +40,19 @@ def run_query(request: QueryRequest, db: Session = Depends(get_db)):
             report_id=final_result["report_id"],
             query=final_result["query"],
             plan=final_result["plan"],
-            analyst_output=final_result["analyst_output"],
-            report_md=final_result["report_md"],
+            recommendations=final_result["recommendations"],
+            role_summary=final_result["role_summary"],
             generated_at=final_result["generated_at"],
         )
 
-    except HTTPException:
-        raise
     except Exception as exc:
-        raise HTTPException(status_code=500, detail=str(exc))
+        db.rollback()
+
+        traceback.print_exc()
+
+        logger.exception("Query route failed")
+
+        raise HTTPException(
+            status_code=500,
+            detail="Query failed. Check backend console.",
+        )

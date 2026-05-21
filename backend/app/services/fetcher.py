@@ -14,7 +14,7 @@ def fetch_page_edge(url: str) -> str:
     from playwright.sync_api import sync_playwright
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(channel="msedge", headless=True)
+        browser = p.chromium.launch(headless=True)
         page = browser.new_page(user_agent=USER_AGENT)
         page.goto(url, wait_until="domcontentloaded", timeout=PLAYWRIGHT_TIMEOUT_MS)
         page.wait_for_selector("table tbody tr", timeout=PLAYWRIGHT_TIMEOUT_MS)

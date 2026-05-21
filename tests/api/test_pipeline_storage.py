@@ -64,7 +64,7 @@ def test_pipeline_uses_existing_db_stats_without_fetching(monkeypatch):
                 "max_pick_rate": None,
                 "min_ban_rate": None,
                 "max_ban_rate": None,
-                "top_n": 10,
+                "top_n": 5,
             },
             "steps": [
                 "fetch_extract",

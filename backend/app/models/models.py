@@ -1,10 +1,10 @@
-from typing import Optional
+from typing import Optional, Any
 from datetime import datetime
 from pydantic import BaseModel, Field
 
 class QueryRequest(BaseModel):
     query: str = Field(
-        default="summarize the current meta"
+        default="find the strongest heroes"
     )
 
 
@@ -21,13 +21,27 @@ class AnalystOutput(BaseModel):
     caveats: list[str] = []
 
 
+class HeroRecommendation(BaseModel):
+    hero: str
+    lane: str | None = None
+    tier: str | None = None
+    win_rate: float | None = None
+    pick_rate: float | None = None
+    ban_rate: float | None = None
+
+
+class RoleSummary(BaseModel):
+    lane: str
+    heroes: list[HeroRecommendation]
+
+
 class QueryResponse(BaseModel):
     report_id: str
     query: str
-    plan: dict
-    analyst_output: AnalystOutput
-    report_md: str
-    generated_at: datetime
+    plan: dict[str, Any]
+    recommendations: list[HeroRecommendation]
+    role_summary: list[RoleSummary]
+    generated_at: str
 
 
 class HeroStat(BaseModel):

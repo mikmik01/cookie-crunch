@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from backend.app.db.db import get_db
 from backend.app.models.models import HeroStat, StatsResponse
-from backend.app.db.repositories.stats import get_latest_stats
+from backend.app.db.repositories.stats import get_latest_stats as get_latest_stats_from_db
  
 router = APIRouter()
  
@@ -56,7 +56,7 @@ def build_stats_response(data: dict, heroes: list[dict]) -> StatsResponse:
 
 @router.get("/stats", response_model=StatsResponse)
 def get_stats(db: Session = Depends(get_db)):
-    data = get_latest_stats(db)
+    data = get_latest_stats_from_db(db)
 
     if data is None:
         raise HTTPException(status_code=404, detail="No stats found.")
@@ -65,7 +65,7 @@ def get_stats(db: Session = Depends(get_db)):
 
 
 @router.get("/stats/latest", response_model=StatsResponse)
-def get_latest_stats(
+def get_latest_stats_route(
     lane: Optional[str] = Query(
         default=None,
         description="Filter by lane. One of: Mid, Gold, Exp, Jungle, Roam.",
@@ -88,7 +88,7 @@ def get_latest_stats(
     ),
     db: Session = Depends(get_db),
 ):
-    data = get_latest_stats(db)
+    data = get_latest_stats_from_db(db)
 
     if data is None:
         raise HTTPException(status_code=404, detail="No stats found.")

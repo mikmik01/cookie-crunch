@@ -67,7 +67,7 @@ Return this JSON shape:
     "max_pick_rate": null,
     "min_ban_rate": null,
     "max_ban_rate": null,
-    "top_n": 10
+    "top_n": 5
   },
   "steps": [
     "fetch_extract",
@@ -122,7 +122,7 @@ DEFAULT_PLAN = {
         "max_pick_rate": None,
         "min_ban_rate": None,
         "max_ban_rate": None,
-        "top_n": 10,
+        "top_n": 5,
     },
     "steps": [
         "fetch_extract",

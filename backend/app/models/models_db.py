@@ -45,7 +45,7 @@ class QueryReport(Base):
     query: Mapped[str] = mapped_column(Text, nullable=False)
     plan_json: Mapped[str] = mapped_column(Text, nullable=False)
     analyst_output_json: Mapped[str] = mapped_column(Text, nullable=False)
-    report_md: Mapped[str] = mapped_column(Text, nullable=False)
+    report_md: Mapped[str] = mapped_column(Text, nullable=False, default="")
     hero_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     issue_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     created_at: Mapped[datetime] = mapped_column(

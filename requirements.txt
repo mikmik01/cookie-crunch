@@ -10,3 +10,4 @@ uvicorn[standard]
 pytest
 httpx
 alembic
+psycopg[binary]
