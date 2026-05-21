@@ -1,56 +1,17 @@
-terraform {
-  required_version = ">= 1.5.0"
-
-  required_providers {
-    vercel = {
-      source  = "vercel/vercel"
-      version = "~> 3.0"
-    }
-
-    render = {
-      source  = "render-oss/render"
-      version = "~> 1.6"
-    }
-  }
-}
-
-provider "vercel" {
-  api_token = var.vercel_api_token
-}
-
-provider "render" {
-  api_key = var.render_api_key
-}
-
-resource "vercel_project" "frontend" {
-  name      = var.frontend_name
-  framework = "vite"
-
-  git_repository = {
-    type = "github"
-    repo = var.github_repo
-  }
-
-  root_directory = "frontend"
-
-  build_command    = "npm run build"
-  output_directory = "dist"
-}
-
 resource "render_web_service" "backend" {
   name   = var.backend_name
+  plan   = "free"
   region = "singapore"
 
   runtime_source = {
     docker = {
-      repo_url        = "https://github.com/${var.github_repo}"
-      branch          = "main"
+      auto_deploy     = true
+      branch          = var.branch
+      repo_url        = var.github_repo_url
       dockerfile_path = "backend/Dockerfile"
       docker_context  = "."
     }
   }
-
-  plan = "free"
 
   env_vars = {
     DATABASE_URL = {
@@ -69,4 +30,28 @@ resource "render_web_service" "backend" {
       value = "true"
     }
   }
+}
+
+resource "vercel_project" "frontend" {
+  name      = var.frontend_name
+  framework = "vite"
+
+  git_repository = {
+    type = "github"
+    repo = var.github_repo
+  }
+
+  root_directory = "frontend"
+
+  build_command    = "npm run build"
+  output_directory = "dist"
+
+  environment = [
+    {
+      key    = "VITE_API_BASE_URL"
+      value  = "https://${render_web_service.backend.name}.onrender.com"
+      target = ["production", "preview"]
+      sensitive = false
+    }
+  ]
 }
