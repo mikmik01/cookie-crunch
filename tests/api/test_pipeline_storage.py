@@ -23,26 +23,32 @@ def make_db():
 
 
 def test_pipeline_uses_existing_db_stats_without_fetching(monkeypatch):
-    db = make_db()
-
-    save_scrape_run_with_stats(
-        db=db,
-        source="mlbb.gg/statistics",
-        scraped_for_date=date.today(),
-        df_clean=pd.DataFrame([
+    fake_stats = {
+        "heroes": [
             {
                 "rank": 1,
                 "lane": "Mid",
-                "hero": "Cecilion",
+                "hero": "Alice",
                 "tier": "S",
                 "win_rate": 53.2,
-                "ban_rate": 12.5,
-                "pick_rate": 8.1,
+                "ban_rate": 12.1,
+                "pick_rate": 8.4,
                 "roles": "Mage",
             }
-        ]),
-        issue_count=0,
+        ],
+        "issue_count": 0,
+    }
+
+    def fail_fetch(*args, **kwargs):
+        pytest.fail("Should not fetch when DB stats exist.")
+
+    monkeypatch.setattr(
+        pipeline,
+        "get_stats_for_date",
+        lambda db, today: fake_stats,
     )
+
+    monkeypatch.setattr(pipeline, "fetch_page", fail_fetch)
 
     monkeypatch.setattr(
         pipeline,
@@ -60,27 +66,18 @@ def test_pipeline_uses_existing_db_stats_without_fetching(monkeypatch):
                 "max_ban_rate": None,
                 "top_n": 10,
             },
-            "steps": [],
+            "steps": [
+                "fetch_extract",
+                "normalize",
+                "validate",
+                "generate_insights",
+                "build_report",
+            ],
             "reasoning_summary": "test",
         },
     )
 
-    monkeypatch.setattr(pipeline, "fetch_page", lambda url: pytest.fail("Should not fetch when DB stats exist."))
+    events = list(pipeline.run_pipeline("best heroes", db=object()))
 
-    monkeypatch.setattr(
-        pipeline,
-        "run_analyst",
-        lambda user_query, df_clean, issue_count: {
-            "headline": "Meta Watch",
-            "key_findings": [],
-            "meta_summary": "Cecilion is available from DB stats.",
-            "caveats": [],
-        },
-    )
-
-    events = list(pipeline.run_pipeline("summarize the current meta", db=db))
-    step, message, result = events[-1]
-
-    assert step == "done"
-    assert result["hero_count"] == 1
-    assert result["report_md"].startswith("# Meta Watch")
+    assert events
+    assert events[-1][0] == "done"

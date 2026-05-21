@@ -1,4 +1,5 @@
 from pathlib import Path
+from urllib.parse import urlencode
 
 SRC_URL = "https://mlbb.gg/statistics"
 BASE_DIR = Path(__file__).resolve().parent
@@ -7,6 +8,22 @@ RAW_DIR = DATA_DIR / "raw"
 CLEAN_DIR = DATA_DIR / "clean"
 PROCESSED_DIR = DATA_DIR / "processed"
 REPORT_DIR = DATA_DIR / "reports"
+
+RANK_FILTERS = [
+    "Epic",
+    "Legend",
+    "Mythic",
+    "Mythical Honor",
+    "Mythical Glory Plus",
+]
+
+def build_stats_url(rank_filter: str | None = None) -> str:
+    params = {"mode": "rank"}
+
+    if rank_filter:
+        params["rank_filter"] = rank_filter
+
+    return f"{SRC_URL}?{urlencode(params)}"
 
 TIMEOUT = 15
 USER_AGENT = (
@@ -20,11 +37,11 @@ PLAYWRIGHT_WAIT_MS = 5000
 PLAYWRIGHT_TIMEOUT_MS = 30000
 
 SYSTEM_PROMPT = """
-You are a planning module for an MLBB meta analysis workflow.
+You are a planning module for an MLBB hero statistics and recommendation workflow.
 
 You must return valid JSON only.
 Do not include markdown fences.
-Do not include any extra commentary.
+Do not include extra commentary.
 
 Allowed task_type values:
 - summarize_meta
@@ -59,21 +76,25 @@ Return this JSON shape:
     "generate_insights",
     "build_report"
   ],
-  "reasoning_summary": "short explanation"
+  "reasoning_summary": "short reason"
 }
 
-Interpret user intent conservatively.
-If the user asks for underrated heroes, prefer:
-- task_type = find_underrated_heroes
-- min_win_rate around 52
-- max_pick_rate around 10
+Planning rules:
+- If the user asks for recommended heroes, strongest heroes, best heroes, or meta heroes, use summarize_meta.
+- If the user asks for underrated heroes, use find_underrated_heroes, min_win_rate around 52, max_pick_rate around 10.
+- If the user asks for overbanned heroes, use find_overbanned_heroes, min_ban_rate around 30, max_win_rate around 52.
+- If the user asks for a specific lane, set lane to that lane.
+- If the user asks for a specific hero, set hero to that hero.
+- If the user asks for strongest heroes by role, best heroes per lane, or a role overview, leave lane as null and set top_n to 50.
+- Do not add unnecessary filters.
+- Keep reasoning_summary under 8 words.
 
-If the user asks for overbanned heroes, prefer:
-- task_type = find_overbanned_heroes
-- min_ban_rate around 30
-- max_win_rate around 52
-
-If the user asks for a general overview, use summarize_meta.
+Valid lane values:
+- Exp
+- Gold
+- Jungle
+- Mid
+- Roam
 """
 
 ALLOWED_TASK_TYPES = {

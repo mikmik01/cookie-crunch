@@ -8,3 +8,5 @@ STAT_FIELDS = [
     "pick_rate",
     "roles",
 ]
+
+STAT_OUTPUT_FIELDS = STAT_FIELDS + ["rank_filter"]

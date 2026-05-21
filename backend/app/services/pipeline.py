@@ -3,13 +3,13 @@ from datetime import date, datetime
 import pandas as pd
 from sqlalchemy.orm import Session
 
-from backend.app.core.config import SRC_URL
+from backend.app.core.config import SRC_URL, RANK_FILTERS, build_stats_url
+from backend.app.schemas.schemas import STAT_OUTPUT_FIELDS
 from backend.app.services.fetcher import fetch_page
 from backend.app.services.extractor import extract_stats
 from backend.app.services.normalizer import normalize_df
 from backend.app.services.validator import validate_df, validate_and_repair_plan
 from backend.app.services.report import build_report
-from backend.app.schemas.schemas import STAT_FIELDS
 from backend.app.services.ranker import rank_candidates
 
 from backend.app.db.repositories.stats import (
@@ -35,6 +35,11 @@ def apply_filters(df: pd.DataFrame, filters: dict) -> pd.DataFrame:
         df = df[df["ban_rate"] >= f["min_ban_rate"]]
     if f.get("max_ban_rate") is not None:
         df = df[df["ban_rate"] <= f["max_ban_rate"]]
+    if f.get("rank_filter") and "rank_filter" in df.columns:
+        df = df[
+            df["rank_filter"].astype(str).str.lower()
+            == f["rank_filter"].lower()
+        ]
     return df.head(f.get("top_n", 10)) if f.get("top_n") else df
 
 
@@ -67,6 +72,38 @@ def run_analyst(user_query: str, df_clean: pd.DataFrame, issue_count: int) -> di
     )
 
 
+def fetch_stats_for_rank_filter(rank_filter: str) -> pd.DataFrame:
+    url = build_stats_url(rank_filter)
+    html = fetch_page(url)
+    rows = extract_stats(html)
+    
+    for row in rows:
+        row["rank_filter"] = rank_filter
+    
+    return pd.DataFrame(rows, columns=STAT_OUTPUT_FIELDS)
+
+
+def fetch_all_rank_stats() -> pd.DataFrame:
+    frames = []
+    for rank_filter in RANK_FILTERS:
+        df = fetch_stats_for_rank_filter(rank_filter=rank_filter)
+        frames.append(df)
+
+    return pd.concat(frames, ignore_index=True)
+
+
+def cached_stats_have_rank_filter(stats: dict | None) -> bool:
+    if stats is None:
+        return False
+
+    heroes = stats.get("heroes") or []
+
+    if not heroes:
+        return False
+
+    return "rank_filter" in heroes[0]
+
+
 def run_pipeline(user_query: str, db: Session):
     raw_plan = get_pipeline_plan(user_query)
     plan = validate_and_repair_plan(raw_plan)
@@ -75,10 +112,8 @@ def run_pipeline(user_query: str, db: Session):
     stats = get_stats_for_date(db, today)
 
     if stats is None:
-        html = fetch_page(SRC_URL)
-        rows = extract_stats(html)
+        df_raw = fetch_all_rank_stats()
 
-        df_raw = pd.DataFrame(rows, columns=STAT_FIELDS)
         df_norm = normalize_df(df_raw)
         df_clean, df_issues = validate_df(df_norm)
 
@@ -95,10 +130,10 @@ def run_pipeline(user_query: str, db: Session):
         df_clean = pd.DataFrame(stats["heroes"])
         issue_count = int(stats["issue_count"])
 
-    df_filtered = apply_filters(df_clean.copy(), {**plan["filters"], "top_n": None})
+    df_pool = apply_filters(df_clean.copy(), {**plan["filters"], "top_n": None})
 
     df_filtered = rank_candidates(
-        df_filtered,
+        df_pool,
         task_type=plan["task_type"],
         top_n=plan["filters"].get("top_n", 10),
     )
@@ -109,13 +144,12 @@ def run_pipeline(user_query: str, db: Session):
             f"Plan filters: {plan['filters']}"
         )
 
-    analyst_output = run_analyst(
-        user_query=user_query,
-        df_clean=df_filtered,
-        issue_count=issue_count,
+    report_payload = build_report(
+        df_recommendations=df_filtered,
+        df_role_pool=df_pool,
+        task_type=plan["task_type"],
+        heroes_per_lane=3,
     )
-
-    report_md = build_report(analyst_output=analyst_output)
 
     ts = datetime.utcnow().strftime("%Y-%m-%d_%H%M%S")
     report_id = f"report_{ts}"
@@ -124,36 +158,11 @@ def run_pipeline(user_query: str, db: Session):
         "report_id": report_id,
         "query": user_query,
         "plan": plan,
-        "analyst_output": analyst_output,
-        "report_md": report_md,
+        "recommendations": report_payload["recommendations"],
+        "role_summary": report_payload["role_summary"],
         "issue_count": issue_count,
         "hero_count": int(len(df_filtered)),
         "generated_at": datetime.utcnow().isoformat(),
     }
 
     yield ("done", "Report ready.", result)
-
-
-def load_latest_stats() -> dict | None:
-    today = get_today()
-    clean_csv = find_latest_csv_for_day(CLEAN_DIR, "stats_cleaned", today)
-    issues_csv = find_latest_csv_for_day(CLEAN_DIR, "stats_issues", today)
- 
-    if clean_csv is None:
-        return None
- 
-    df_clean = pd.read_csv(clean_csv)
- 
-    issue_count = 0
-    if issues_csv is not None:
-        try:
-            issue_count = len(pd.read_csv(issues_csv))
-        except pd.errors.EmptyDataError:
-            pass
- 
-    return {
-        "date": today,
-        "hero_count": len(df_clean),
-        "issue_count": issue_count,
-        "heroes": df_clean.where(pd.notna(df_clean), None).to_dict(orient="records"),
-    }

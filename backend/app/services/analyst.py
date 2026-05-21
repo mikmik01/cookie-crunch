@@ -60,38 +60,43 @@ def analyze_meta(
 
 
 ANALYST_PROMPT = """
-You are an MLBB meta analyst writing like a knowledgeable human content creator who understands the ranked meta well.
+You are an MLBB hero recommendation formatter.
 
 You will receive:
 1. the user's query
 2. a compact evidence package derived from cleaned MLBB statistics
 3. validation warnings
 
-Your job is to interpret the data and explain the most relevant meta patterns in a way that sounds natural, insightful, and grounded in the numbers.
+Your job is to return concise structured data for a frontend.
 
-Important reasoning rules:
-- The dataset may include a lane label for each hero.
-- If lane labels are present, you MUST use them for lane-specific analysis.
-- However, the performance metrics provided are hero-level overall metrics, not necessarily lane-conditional metrics.
-- This means you may talk about "heroes labeled as Mid in this dataset" or "Mid-associated heroes in the current pool", but you must NOT falsely claim that the data shows a hero's performance only when played in Mid unless that is explicitly provided.
-- Do NOT say lane data is missing if lane labels are present in the evidence.
-- Be confident when the evidence supports a conclusion, but acknowledge limitations when needed.
+Use only the provided evidence.
+Do not invent heroes, lanes, tiers, or statistics.
+Do not explain your choices.
+Do not include summaries.
+Do not include caveats.
+Do not include markdown.
 
-Lane labels indicate a hero’s associated or common role, but may not reflect their primary or most played role.
+Each recommended hero must include only:
+- hero
+- lane
+- tier
+- win_rate
+- pick_rate
+- ban_rate
 
-High global ban rate does NOT imply dominance in every lane.
+For role_summary:
+- Group heroes by lane.
+- Include up to 3 heroes per lane.
+- Use only lanes present in the evidence.
+- Each hero object must include only hero, tier, win_rate, pick_rate, and ban_rate.
 
-When analyzing a specific lane:
-- prioritize heroes whose performance (win rate + pick rate) aligns with that lane
-- treat globally banned heroes with caution if their pick rate or role does not strongly support that lane
-- avoid concluding that a hero dominates a lane based only on ban rate
-
-Style rules:
-- Sound like a real MLBB analyst or content creator discussing the meta with players.
-- Use natural MLBB phrasing like "priority pick", "contested", "draft pressure", "strong in ranked", "quietly strong", "high-risk high-reward", "underpicked", and "worth watching", when appropriate.
-- Do NOT sound robotic, academic, or overly formal.
-- Do NOT use slang so heavily that it becomes unclear.
-- Keep claims tightly tied to the provided evidence.
+Recommendation rules:
+- For general meta queries, return the strongest practical heroes from the evidence.
+- For underrated hero queries, prioritize high win_rate and low pick_rate.
+- For overbanned hero queries, prioritize high ban_rate with weaker win_rate.
+- For lane-specific queries, only return heroes matching that lane.
+- For strongest heroes by role, populate role_summary clearly.
+- Round numeric values to 2 decimal places.
 
 Return VALID JSON ONLY.
 Do not include markdown fences.
@@ -99,15 +104,34 @@ Do not include extra commentary.
 
 Schema:
 {
-  "headline": "short title",
-  "key_findings": [
+  "recommendations": [
     {
-      "claim": "clear finding in natural analyst language",
-      "evidence": "specific supporting evidence from the provided data",
-      "confidence": "low | medium | high"
+      "hero": "hero name",
+      "lane": "lane label",
+      "tier": "tier label or null",
+      "win_rate": 0.0,
+      "pick_rate": 0.0,
+      "ban_rate": 0.0
     }
   ],
-  "meta_summary": "a short, natural-sounding paragraph like a meta analyst would say",
-  "caveats": ["optional caveat 1", "optional caveat 2"]
+  "role_summary": [
+    {
+      "lane": "lane label",
+      "heroes": [
+        {
+          "hero": "hero name",
+          "tier": "tier label or null",
+          "win_rate": 0.0,
+          "pick_rate": 0.0,
+          "ban_rate": 0.0
+        }
+      ]
+    }
+  ]
 }
+
+Output size rules:
+- recommendations should usually contain 5 to 10 heroes.
+- role_summary should include up to 3 heroes per lane.
+- If role_summary is not relevant, return an empty list.
 """

@@ -1,30 +1,58 @@
+import pandas as pd
+
 from backend.app.services.report import build_report
 
-def test_report_uses_default_headline_when_output_is_empty():
-    report = build_report({})
 
-    assert report.startswith("# MLBB Meta Report")
-    assert "## Key Findings" not in report
-    assert "## Summary" not in report
+def test_report_returns_empty_structured_payload_when_dataframe_is_empty():
+    result = build_report(
+        df_recommendations=pd.DataFrame(),
+        df_role_pool=pd.DataFrame(),
+    )
 
-def test_report_renders_analyst_output_as_markdown():
-    analyst_output = {
-        "headline": "Mid Lane Meta Watch",
-        "key_findings": [
-            {
-                "claim": "Cecilion is a strong ranked pick.",
-                "evidence": "53.2% win rate with 8.1% pick rate.",
-                "confidence": "high",
-            }
-        ],
-        "meta_summary": "Mid-associated scaling mages are performing well.",
+    assert result == {
+        "recommendations": [],
+        "role_summary": [],
     }
 
-    report = build_report(analyst_output)
 
-    assert report.startswith("# Mid Lane Meta Watch")
-    assert "## Key Findings" in report
-    assert "Cecilion is a strong ranked pick." in report
-    assert "53.2% win rate with 8.1% pick rate." in report
-    assert "Confidence: high" in report
-    assert "## Summary" in report
+def test_report_returns_recommendations_as_structured_payload():
+    df = pd.DataFrame([
+        {
+            "hero": "Alice",
+            "lane": "Mid",
+            "tier": "S",
+            "win_rate": 53.2,
+            "pick_rate": 8.4,
+            "ban_rate": 12.1,
+        },
+        {
+            "hero": "Bruno",
+            "lane": "Gold",
+            "tier": "A",
+            "win_rate": 51.7,
+            "pick_rate": 10.5,
+            "ban_rate": 6.3,
+        },
+    ])
+
+    result = build_report(
+        df_recommendations=df,
+        df_role_pool=df,
+        task_type="summarize_meta",
+        heroes_per_lane=3,
+    )
+
+    assert "recommendations" in result
+    assert "role_summary" in result
+
+    assert result["recommendations"][0] == {
+        "hero": "Alice",
+        "lane": "Mid",
+        "tier": "S",
+        "win_rate": 53.2,
+        "pick_rate": 8.4,
+        "ban_rate": 12.1,
+    }
+
+    assert any(group["lane"] == "Mid" for group in result["role_summary"])
+    assert any(group["lane"] == "Gold" for group in result["role_summary"])
