@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+
 type HeroRecommendation = {
   hero: string;
   lane?: string | null;
@@ -68,7 +70,7 @@ function App() {
     const trimmedQuery = query.trim();
 
     try {
-      const response = await fetch("/query", {
+      const response = await fetch(`${API_BASE_URL}/query`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,0 +1,7 @@
+github_repo      = "mikmik01/cookie-crunch"
+frontend_name    = "mlbb-drafter-frontend"
+backend_name     = "mlbb-drafter-backend"
+database_url     = "postgresql+psycopg://..."
+google_api_key   = "..."
+render_api_key   = "..."
+vercel_api_token = "..."
