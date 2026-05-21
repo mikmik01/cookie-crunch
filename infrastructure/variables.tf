@@ -30,12 +30,12 @@ variable "vercel_api_token" {
 
 variable "backend_name" {
   type    = string
-  default = "cookie-crunch-backend"
+  default = "cookie-crunch"
 }
 
 variable "frontend_name" {
   type    = string
-  default = "cookie-crunch-frontend"
+  default = "cookie-crunch"
 }
 
 variable "database_url" {
