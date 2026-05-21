@@ -1,7 +1,7 @@
 import pandas as pd
 
-from normalizer import normalize_df
-from validator import validate_df, validate_and_repair_plan
+from backend.app.services.normalizer import normalize_df
+from backend.app.services.validator import validate_df, validate_and_repair_plan
 
 def test_cleaning_pipeline_converts_valid_rows_and_separates_invalid_rows():
     raw = pd.DataFrame([

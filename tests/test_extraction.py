@@ -1,7 +1,7 @@
 import pytest
 
-from extractor import extract_stats
-from schemas import STAT_FIELDS
+from backend.app.services.extractor import extract_stats
+from backend.app.schemas.schemas import STAT_FIELDS
 
 
 def test_extract_stats_returns_records_with_expected_schema():

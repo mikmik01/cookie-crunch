@@ -1,4 +1,4 @@
-from report import build_report
+from backend.app.services.report import build_report
 
 def test_report_uses_default_headline_when_output_is_empty():
     report = build_report({})

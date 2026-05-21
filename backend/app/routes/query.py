@@ -1,15 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from api.db import get_db
-from api.models import QueryRequest, QueryResponse
-from api.repositories.reports import save_query_report
+from backend.app.db.db import get_db
+from backend.app.models.models import QueryRequest, QueryResponse
+from backend.app.db.repositories.reports import save_query_report
 
 router = APIRouter()
 
 
 def execute_pipeline(user_query: str, db: Session):
-    from api.pipeline import run_pipeline
+    from backend.app.services.pipeline import run_pipeline
 
     return run_pipeline(user_query, db=db)
 

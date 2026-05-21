@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 
 from sqlalchemy.orm import Session
 
-from api.models_db import QueryReport
+from backend.app.models.models_db import QueryReport
 
 
 def _parse_created_at(value) -> datetime:

@@ -6,9 +6,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from api.db import Base
-from api.repositories.stats import save_scrape_run_with_stats
-import api.pipeline as pipeline
+from backend.app.db.db import Base
+from backend.app.db.repositories.stats import save_scrape_run_with_stats
+import backend.app.services.pipeline as pipeline
 
 
 def make_db():

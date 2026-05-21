@@ -1,6 +1,6 @@
 import pandas as pd
 
-from ranker import rank_candidates
+from backend.app.services.ranker import rank_candidates
 
 
 def sample_stats():

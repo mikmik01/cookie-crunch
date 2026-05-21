@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from schemas import STAT_FIELDS
+from backend.app.schemas.schemas import STAT_FIELDS
 
 def clean_text(val: str) ->  str:
     return " ".join(val.strip().split())

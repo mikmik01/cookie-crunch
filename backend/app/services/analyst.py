@@ -6,7 +6,7 @@ import google.generativeai as genai
 import pandas as pd
 from dotenv import load_dotenv
 
-from evidence import build_evidence_package
+from backend.app.services.evidence import build_evidence_package
 
 from pydantic import BaseModel, ValidationError
 

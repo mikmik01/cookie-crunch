@@ -6,10 +6,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from api.db import Base, get_db
-from api.main import app
-from api.repositories.reports import get_report_by_id, save_query_report
-from api.routes import query as query_route
+from backend.app.db.db import Base, get_db
+from backend.app.services.main import app
+from backend.app.db.repositories.reports import get_report_by_id, save_query_report
+from backend.app.routes import query as query_route
 
 
 @pytest.fixture()

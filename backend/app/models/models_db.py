@@ -1,6 +1,6 @@
 from sqlalchemy import String, Integer, Float, Text, ForeignKey, Date, DateTime, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from api.db import Base
+from backend.app.db.db import Base
 from datetime import datetime, date
 from uuid import uuid4
 

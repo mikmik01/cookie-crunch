@@ -3,7 +3,7 @@ import re
 import json
 from typing import Any
 import google.generativeai as genai
-from config import SYSTEM_PROMPT, DEFAULT_PLAN
+from backend.app.core.config import SYSTEM_PROMPT, DEFAULT_PLAN
 from dotenv import load_dotenv
 
 load_dotenv()

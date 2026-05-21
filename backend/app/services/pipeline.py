@@ -3,16 +3,16 @@ from datetime import date, datetime
 import pandas as pd
 from sqlalchemy.orm import Session
 
-from config import SRC_URL
-from fetcher import fetch_page
-from extractor import extract_stats
-from normalizer import normalize_df
-from validator import validate_df, validate_and_repair_plan
-from report import build_report
-from schemas import STAT_FIELDS
-from ranker import rank_candidates
+from backend.app.core.config import SRC_URL
+from backend.app.services.fetcher import fetch_page
+from backend.app.services.extractor import extract_stats
+from backend.app.services.normalizer import normalize_df
+from backend.app.services.validator import validate_df, validate_and_repair_plan
+from backend.app.services.report import build_report
+from backend.app.schemas.schemas import STAT_FIELDS
+from backend.app.services.ranker import rank_candidates
 
-from api.repositories.stats import (
+from backend.app.db.repositories.stats import (
     get_stats_for_date,
     save_scrape_run_with_stats,
 )
@@ -52,13 +52,13 @@ def find_latest_csv_for_day(folder, prefix: str, day: str):
 
 
 def get_pipeline_plan(user_query: str) -> dict:
-    from planner import get_plan
+    from backend.app.services.planner import get_plan
 
     return get_plan(user_query=user_query)
 
 
 def run_analyst(user_query: str, df_clean: pd.DataFrame, issue_count: int) -> dict:
-    from analyst import analyze_meta
+    from backend.app.services.analyst import analyze_meta
 
     return analyze_meta(
         user_query=user_query,

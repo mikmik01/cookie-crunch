@@ -13,8 +13,8 @@ if config.config_file_name is not None:
 
 config.set_main_option("sqlalchemy.url", os.environ["DATABASE_URL"])
 
-from api.db import Base
-from api import models_db
+from backend.app.db.db import Base
+from backend.app.models import models_db
 
 target_metadata = Base.metadata
 

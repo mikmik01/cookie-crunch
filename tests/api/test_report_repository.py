@@ -3,8 +3,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime, timezone
 
-from api.db import Base
-from api.repositories.reports import save_query_report, get_report_by_id, list_reports
+from backend.app.db.db import Base
+from backend.app.db.repositories.reports import save_query_report, get_report_by_id, list_reports
 
 
 def make_db():

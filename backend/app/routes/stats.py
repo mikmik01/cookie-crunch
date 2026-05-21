@@ -3,9 +3,9 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
-from api.db import get_db
-from api.models import HeroStat, StatsResponse
-from api.repositories.stats import get_latest_stats
+from backend.app.db.db import get_db
+from backend.app.models.models import HeroStat, StatsResponse
+from backend.app.db.repositories.stats import get_latest_stats
  
 router = APIRouter()
  
