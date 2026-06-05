@@ -1,6 +1,28 @@
 import pandas as pd
 
 from backend.app.services.ranker import rank_candidates
+from backend.app.services.query_filters import apply_filters
+
+
+def select_recommendations(
+    df_clean: pd.DataFrame,
+    plan: dict,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    filters = plan["filters"]
+
+    df_pool = apply_filters(
+        df_clean.copy(),
+        {**filters, "top_n": None},
+    )
+
+    df_recommendations = rank_candidates(
+        df_pool,
+        task_type=plan["task_type"],
+        top_n=filters.get("top_n", 5),
+    )
+
+    return df_recommendations, df_pool
+
 
 RECOMMENDATION_COLUMNS = [
     "hero",
@@ -95,7 +117,7 @@ def build_role_summary(
     return role_summary
 
 
-def build_report(
+def build_output(
     df_recommendations: pd.DataFrame,
     df_role_pool: pd.DataFrame | None = None,
     task_type: str = "summarize_meta",
