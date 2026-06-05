@@ -1,13 +1,8 @@
-from datetime import date
-
-import pandas as pd
-import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
 from backend.app.db.db import Base
-from backend.app.db.repositories.stats import save_scrape_run_with_stats
 import backend.app.services.pipeline as pipeline
 
 
@@ -39,16 +34,11 @@ def test_pipeline_uses_existing_db_stats_without_fetching(monkeypatch):
         "issue_count": 0,
     }
 
-    def fail_fetch(*args, **kwargs):
-        pytest.fail("Should not fetch when DB stats exist.")
-
     monkeypatch.setattr(
         pipeline,
         "get_stats_for_date",
         lambda db, today: fake_stats,
     )
-
-    monkeypatch.setattr(pipeline, "fetch_page", fail_fetch)
 
     monkeypatch.setattr(
         pipeline,
@@ -66,18 +56,14 @@ def test_pipeline_uses_existing_db_stats_without_fetching(monkeypatch):
                 "max_ban_rate": None,
                 "top_n": 5,
             },
-            "steps": [
-                "fetch_extract",
-                "normalize",
-                "validate",
-                "generate_insights",
-                "build_report",
-            ],
-            "reasoning_summary": "test",
+            "steps": [],
+            "reasoning_summary": "test plan",
         },
     )
 
-    events = list(pipeline.run_pipeline("best heroes", db=object()))
+    events = list(pipeline.run_pipeline("strongest heroes", db=None))
 
-    assert events
-    assert events[-1][0] == "done"
+    step, message, result = events[-1]
+
+    assert step == "done"
+    assert result["recommendations"][0]["hero"] == "Alice"

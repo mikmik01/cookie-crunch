@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.concurrency import run_in_threadpool
 
-from backend.app.routes import query, reports, stats
+from backend.app.routes import query, stats
 from backend.app.db.db import SessionLocal
 from backend.app.db.db_migrations import run_migrations
 from backend.app.services.pipeline import ensure_today_stats
@@ -37,7 +37,6 @@ app.add_middleware(
 
 app.include_router(query.router, tags=["Query"])
 app.include_router(stats.router, tags=["Stats"])
-app.include_router(reports.router, tags=["Reports"])
 
 
 @app.get("/health")

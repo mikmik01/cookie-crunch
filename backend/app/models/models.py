@@ -19,7 +19,6 @@ class RoleSummary(BaseModel):
     heroes: list[HeroRecommendation]
 
 class QueryResponse(BaseModel):
-    report_id: str
     query: str
     plan: dict[str, Any]
     recommendations: list[HeroRecommendation]

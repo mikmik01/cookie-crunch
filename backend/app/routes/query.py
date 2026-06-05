@@ -7,7 +7,6 @@ from sqlalchemy.orm import Session
 
 from backend.app.db.db import get_db
 from backend.app.models.models import QueryRequest, QueryResponse
-from backend.app.db.repositories.reports import save_query_report
 
 router = APIRouter()
 
@@ -30,11 +29,6 @@ def run_query(request: QueryRequest, db: Session = Depends(get_db)):
 
         if final_result is None:
             raise RuntimeError("Pipeline completed without a report.")
-
-        final_result.setdefault("analyst_output", {})
-        final_result.setdefault("report_md", "")
-
-        save_query_report(db, final_result)
 
         return QueryResponse(
             report_id=final_result["report_id"],
