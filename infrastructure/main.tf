@@ -32,6 +32,22 @@ resource "render_web_service" "backend" {
   }
 }
 
+data "vercel_project_directory" "frontend" {
+  path = "../frontend"
+}
+
+resource "vercel_deployment" "frontend" {
+  project_id  = vercel_project.frontend.id
+  files       = data.vercel_project_directory.frontend.files
+  path_prefix = "../frontend"
+  production  = true
+
+  depends_on = [
+    vercel_project.frontend,
+    render_web_service.backend
+  ]
+}
+
 resource "vercel_project" "frontend" {
   name      = var.frontend_name
   framework = "vite"

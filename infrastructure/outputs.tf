@@ -9,3 +9,7 @@ output "render_backend_url" {
 output "vercel_frontend_project_id" {
   value = vercel_project.frontend.id
 }
+
+output "vercel_frontend_deployment_url" {
+  value = "https://${vercel_deployment.frontend.url}"
+}
