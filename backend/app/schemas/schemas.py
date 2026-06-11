@@ -1,4 +1,4 @@
-from backend.app.services.data_tools import (
+from app.services.data_tools import (
     ALLOWED_AGG_FUNCS,
     ALLOWED_COLUMNS,
     ALLOWED_DIRECTIONS,

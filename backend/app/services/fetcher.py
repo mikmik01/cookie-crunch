@@ -1,6 +1,6 @@
 import requests
 
-from backend.app.core.config import TIMEOUT, USER_AGENT, PLAYWRIGHT_TIMEOUT_MS
+from app.core.config import TIMEOUT, USER_AGENT, PLAYWRIGHT_TIMEOUT_MS
 
 def fetch_page_requests(url: str) -> str:
     headers = {"User-Agent": USER_AGENT}

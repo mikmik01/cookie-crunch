@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
-from backend.app.services.agent import answer_query
+from app.services.agent import answer_query
 
 router = APIRouter()
 

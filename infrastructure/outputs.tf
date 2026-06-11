@@ -1,9 +1,9 @@
 output "render_backend_service_id" {
-  value = render_web_service.backend.id
+  value = render_web_service.id
 }
 
 output "render_backend_url" {
-  value = "https://${render_web_service.backend.name}.onrender.com"
+  value = "https://${render_web_service.name}.onrender.com"
 }
 
 output "vercel_frontend_project_id" {

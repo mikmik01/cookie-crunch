@@ -2,8 +2,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from backend.app.db.db import Base
-import backend.app.services.pipeline as pipeline
+from app.db.db import Base
+import app.services.pipeline as pipeline
 
 
 def make_db():

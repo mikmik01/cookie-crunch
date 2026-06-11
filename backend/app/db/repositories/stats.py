@@ -5,7 +5,7 @@ from typing import Any
 import pandas as pd
 from sqlalchemy.orm import Session, selectinload
 
-from backend.app.models.models_db import HeroStatRow, ScrapeRun
+from app.models.models_db import HeroStatRow, ScrapeRun
 
 
 def _none_if_nan(value: Any):

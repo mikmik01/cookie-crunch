@@ -3,12 +3,12 @@ from datetime import date, datetime
 import pandas as pd
 from sqlalchemy.orm import Session
 
-from backend.app.db.repositories.stats import get_stats_for_date
-from backend.app.services.planner import get_plan
-from backend.app.services.query_filters import infer_lane_from_query, normalize_lane
-from backend.app.services.validator import validate_and_repair_plan
-from backend.app.services.stats_processor import has_valid_cached_stats
-from backend.app.services.recommender import select_recommendations, build_output
+from app.db.repositories.stats import get_stats_for_date
+from app.services.planner import get_plan
+from app.services.query_filters import infer_lane_from_query, normalize_lane
+from app.services.validator import validate_and_repair_plan
+from app.services.stats_processor import has_valid_cached_stats
+from app.services.recommender import select_recommendations, build_output
 
 
 def get_pipeline_plan(user_query: str) -> dict:

@@ -5,7 +5,7 @@ import json
 import google.generativeai as genai
 from dotenv import load_dotenv
 
-from backend.app.core.config import SYSTEM_PROMPT, DEFAULT_PLAN
+from app.core.config import SYSTEM_PROMPT, DEFAULT_PLAN
 
 load_dotenv()
 

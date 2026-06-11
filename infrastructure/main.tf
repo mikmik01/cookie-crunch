@@ -65,7 +65,7 @@ resource "vercel_project" "frontend" {
   environment = [
     {
       key    = "VITE_API_BASE_URL"
-      value  = "https://${render_web_service.backend.name}.onrender.com"
+      value  = "https://${render_web_service.name}.onrender.com"
       target = ["production", "preview"]
       sensitive = false
     }

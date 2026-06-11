@@ -5,8 +5,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from backend.app.db.db import Base
-from backend.app.db.repositories.stats import (
+from app.db.db import Base
+from app.db.repositories.stats import (
     save_scrape_run_with_stats,
     get_latest_stats,
     get_stats_for_date,

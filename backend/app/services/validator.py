@@ -1,6 +1,6 @@
 import pandas as pd
 from copy import deepcopy
-from backend.app.core.config import DEFAULT_PLAN, ALLOWED_STEPS, ALLOWED_TASK_TYPES, REQUIRED_COLUMNS, ALLOWED_TIERS
+from app.core.config import DEFAULT_PLAN, ALLOWED_STEPS, ALLOWED_TASK_TYPES, REQUIRED_COLUMNS, ALLOWED_TIERS
 
 def _to_float_or_none(value):
     if value is None:

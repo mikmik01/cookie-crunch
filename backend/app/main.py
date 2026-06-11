@@ -4,10 +4,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.concurrency import run_in_threadpool
 
-from backend.app.routes import query, stats
-from backend.app.db.db import SessionLocal
-from backend.app.db.db_migrations import run_migrations
-from backend.app.services.pipeline import ensure_today_stats
+from app.routes import query, stats
+from app.db.db import SessionLocal
+from app.db.db_migrations import run_migrations
+from app.services.pipeline import ensure_today_stats
 
 
 def seed_stats_on_startup() -> None:

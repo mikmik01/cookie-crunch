@@ -1,12 +1,12 @@
 import pandas as pd
 
-from backend.app.core.config import CLEAN_DIR, PROCESSED_DIR, RAW_DIR, SRC_URL
-from backend.app.services.data_agent import run_data_agent
-from backend.app.services.extractor import extract_stats
-from backend.app.services.fetcher import fetch_page
-from backend.app.services.normalizer import normalize_df
-from backend.app.schemas.schemas import STAT_FIELDS
-from backend.app.utils.utils import (
+from app.core.config import CLEAN_DIR, PROCESSED_DIR, RAW_DIR, SRC_URL
+from app.services.data_agent import run_data_agent
+from app.services.extractor import extract_stats
+from app.services.fetcher import fetch_page
+from app.services.normalizer import normalize_df
+from app.schemas.schemas import STAT_FIELDS
+from app.utils.utils import (
     build_clean_csv_path,
     build_csv_path,
     build_issues_csv_path,
@@ -14,7 +14,7 @@ from backend.app.utils.utils import (
     ensure_dir,
     get_today,
 )
-from backend.app.services.validator import validate_df
+from app.services.validator import validate_df
 
 
 def find_latest_csv_for_day(folder, prefix: str, day: str):

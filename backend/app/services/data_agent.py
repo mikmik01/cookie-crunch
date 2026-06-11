@@ -9,11 +9,11 @@ import re
 import google.generativeai as genai
 from dotenv import load_dotenv
 
-from backend.app.services.data_tools import aggregate_rows, filter_rows, get_schema
-from backend.app.schemas.schemas import TOOL_NAMES
+from app.services.data_tools import aggregate_rows, filter_rows, get_schema
+from app.schemas.schemas import TOOL_NAMES
 
-from backend.app.services.agent_prompts import build_agent_prompt
-from backend.app.schemas.schemas import build_tool_context
+from app.services.agent_prompts import build_agent_prompt
+from app.schemas.schemas import build_tool_context
 
 load_dotenv()
 

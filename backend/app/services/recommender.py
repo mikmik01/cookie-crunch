@@ -1,7 +1,7 @@
 import pandas as pd
 
-from backend.app.services.ranker import rank_candidates
-from backend.app.services.query_filters import apply_filters
+from app.services.ranker import rank_candidates
+from app.services.query_filters import apply_filters
 
 
 def select_recommendations(

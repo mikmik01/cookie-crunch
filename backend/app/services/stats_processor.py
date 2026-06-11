@@ -4,13 +4,13 @@ from datetime import date, datetime
 import re
 from sqlalchemy.orm import Session
 
-from backend.app.core.config import SRC_URL, RANK_FILTERS, build_stats_url
-from backend.app.schemas.schemas import STAT_FIELDS, STAT_OUTPUT_FIELDS
-from backend.app.services.fetcher import fetch_page
-from backend.app.services.extractor import extract_stats
-from backend.app.services.normalizer import normalize_df
-from backend.app.services.validator import validate_df
-from backend.app.db.repositories.stats import (
+from app.core.config import SRC_URL, RANK_FILTERS, build_stats_url
+from app.schemas.schemas import STAT_FIELDS, STAT_OUTPUT_FIELDS
+from app.services.fetcher import fetch_page
+from app.services.extractor import extract_stats
+from app.services.normalizer import normalize_df
+from app.services.validator import validate_df
+from app.db.repositories.stats import (
     get_stats_for_date,
     save_scrape_run_with_stats,
 )
