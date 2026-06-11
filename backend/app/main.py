@@ -1,39 +1,44 @@
+import os
+
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.concurrency import run_in_threadpool
 
 from app.routes import query, stats
-from app.db.db import SessionLocal
 from app.db.db_migrations import run_migrations
-from app.services.pipeline import ensure_today_stats
 
 
-def seed_stats_on_startup() -> None:
-    db = SessionLocal()
-    try:
-        ensure_today_stats(db)
-    finally:
-        db.close()
+def get_allowed_origins() -> list[str]:
+    origins = os.getenv("CORS_ALLOW_ORIGINS", "")
+
+    parsed = [
+        origin.strip()
+        for origin in origins.split(",")
+        if origin.strip()
+    ]
+
+    return parsed
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     run_migrations()
-    await run_in_threadpool(seed_stats_on_startup)
     yield
 
 
 app = FastAPI(lifespan=lifespan)
 
+allowed_origins = get_allowed_origins()
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=allowed_origins,
+    allow_credentials=False,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["Content-Type", "Authorization"],
 )
+
 
 app.include_router(query.router, tags=["Query"])
 app.include_router(stats.router, tags=["Stats"])
