@@ -135,8 +135,15 @@ DEFAULT_PLAN = {
 }
 
 REQUIRED_COLUMNS = [
-    "rank", "lane", "hero", "tier",
-    "win_rate", "ban_rate", "pick_rate", "roles"
+    "rank_filter",
+    "rank",
+    "lane",
+    "hero",
+    "tier",
+    "win_rate",
+    "ban_rate",
+    "pick_rate",
+    "roles",
 ]
 
 ALLOWED_TIERS = {"SS", "S", "A", "B", "C", "D"}

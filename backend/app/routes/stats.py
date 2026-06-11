@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session
 from app.db.db import get_db
 from app.models.models import HeroStat, StatsResponse
 from app.db.repositories.stats import get_latest_stats as get_latest_stats_from_db
- 
+from app.services.stats_processor import scrape_and_store_today_stats 
+
 router = APIRouter()
  
 FIELDS = {"win_rate", "ban_rate", "pick_rate", "rank"}
@@ -101,3 +102,8 @@ def get_latest_stats_route(
         heroes = heroes[:top_n]
 
     return build_stats_response(data, heroes)
+
+
+@router.post("/stats/refresh")
+def refresh_stats(db: Session = Depends(get_db)):
+    return scrape_and_store_today_stats(db)

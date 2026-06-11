@@ -44,6 +44,10 @@ def normalize_roles(value) -> str:
 def normalize_df(df: pd.DataFrame) -> pd.DataFrame:
     out = df.copy()
 
+    if "rank_filter" not in out.columns:
+        out["rank_filter"] = ""
+
+    out["rank_filter"] = out["rank_filter"].apply(normalize_text)
     out["rank"] = out["rank"].apply(normalize_rank)
     out["lane"] = out["lane"].apply(normalize_text)
     out["hero"] = out["hero"].apply(normalize_text)

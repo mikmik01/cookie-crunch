@@ -26,6 +26,7 @@ class QueryResponse(BaseModel):
     generated_at: str
 
 class HeroStat(BaseModel):
+    rank_filter: Optional[str] = None
     rank: Optional[int] = None
     lane: Optional[str] = None
     hero: str

@@ -165,6 +165,7 @@ def build_tool_context() -> dict:
     }
 
 STAT_FIELDS = [
+    "rank_filter",
     "rank",
     "lane",
     "hero",
@@ -174,5 +175,3 @@ STAT_FIELDS = [
     "pick_rate",
     "roles",
 ]
-
-STAT_OUTPUT_FIELDS = STAT_FIELDS + ["rank_filter"]

@@ -3,7 +3,7 @@ import pandas as pd
 from app.core.config import CLEAN_DIR, PROCESSED_DIR, RAW_DIR, SRC_URL
 from app.services.data_agent import run_data_agent
 from app.services.extractor import extract_stats
-from app.services.fetcher import fetch_page
+from app.services.fetcher import fetch_pages_by_rank
 from app.services.normalizer import normalize_df
 from app.schemas.schemas import STAT_FIELDS
 from app.utils.utils import (
@@ -48,13 +48,24 @@ def load_or_create_clean_stats() -> tuple[pd.DataFrame, pd.DataFrame]:
         return df_clean, df_issues
 
     if raw_csv is None:
-        html = fetch_page(SRC_URL)
-        rows = extract_stats(html)
+        print(f"No stats found for {today}. fetching new stats for all rank divisions...")
+
+        pages_by_rank = fetch_pages_by_rank(SRC_URL)
+
+        rows = []
+
+        for rank_filter, html in pages_by_rank.items():
+            print(f"Extracting stats for {rank_filter}...")
+            rows.extend(extract_stats(html, rank_filter=rank_filter))
+
+        print("done!")
+
         df_raw = pd.DataFrame(rows, columns=STAT_FIELDS)
         raw_csv_path = build_csv_path(PROCESSED_DIR, ts)
         df_raw.to_csv(raw_csv_path, index=False, encoding="utf-8")
     else:
-        df_raw = pd.read_csv(raw_csv)
+        raw_csv_path = raw_csv
+    df_raw = pd.read_csv(raw_csv_path)
 
     df_norm = normalize_df(df_raw)
     df_clean, df_issues = validate_df(df_norm)

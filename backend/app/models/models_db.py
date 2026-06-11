@@ -28,6 +28,7 @@ class HeroStatRow(Base):
     id: Mapped[str] = mapped_column(String, primary_key=True, default=uuid)
     scrape_run_id: Mapped[str] = mapped_column(ForeignKey("scrape_runs.id", ondelete="CASCADE"), nullable=False) 
     hero: Mapped[str] = mapped_column(String, nullable=False)
+    rank_filter: Mapped[str] = mapped_column(String, nullable=False, index=True)
     rank: Mapped[int | None] = mapped_column(Integer)
     lane: Mapped[str | None] = mapped_column(String)
     tier: Mapped[str | None] = mapped_column(String)

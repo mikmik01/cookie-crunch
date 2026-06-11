@@ -41,6 +41,7 @@ def save_scrape_run_with_stats(
         scrape_run.hero_stats.append(
             HeroStatRow(
                 hero=str(row["hero"]),
+                rank_filter=_none_if_nan(row.get("rank_filter")),
                 rank=_none_if_nan(row.get("rank")),
                 lane=_none_if_nan(row.get("lane")),
                 tier=_none_if_nan(row.get("tier")),
@@ -61,15 +62,18 @@ def save_scrape_run_with_stats(
 def _scrape_run_to_response(scrape_run: ScrapeRun) -> dict:
     heroes = sorted(
         scrape_run.hero_stats,
-        key=lambda row: row.rank if row.rank is not None else 999999,
+        key=lambda row: (
+            row.rank_filter or "",
+            row.rank if row.rank is not None else 999999,
+        ),
     )
-
     return {
         "date": scrape_run.scraped_for_date.isoformat(),
         "hero_count": scrape_run.hero_count,
         "issue_count": scrape_run.issue_count,
         "heroes": [
             {
+                "rank_filter": row.rank_filter,
                 "rank": row.rank,
                 "lane": row.lane,
                 "hero": row.hero,

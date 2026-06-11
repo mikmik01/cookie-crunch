@@ -125,7 +125,7 @@ def validate_df(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
                 "issue": "unexpected_tier", "value": tier
             })
     
-    dupes = df[df.duplicated(subset=["hero"], keep=False)]
+    dupes = df[df.duplicated(subset=["rank_filter", "hero"], keep=False)]
     for idx, row in dupes.iterrows():
         issues.append({
             "row_index": idx, "hero": row["hero"], "field": "hero",
