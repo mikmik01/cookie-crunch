@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from backend.app.services.data_agent import ToolExecutionError, execute_tool_call, execute_tool_calls
+from app.services.data_agent import ToolExecutionError, execute_tool_call, execute_tool_calls
 
 
 @pytest.fixture

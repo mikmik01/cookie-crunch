@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from backend.app.services.data_tools import filter_rows, get_schema, aggregate_rows
+from app.services.data_tools import filter_rows, get_schema, aggregate_rows
 
 
 @pytest.fixture

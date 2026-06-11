@@ -1,5 +1,5 @@
-from backend.app.services.data_tools import ALLOWED_COLUMNS
-from backend.app.schemas.schemas import TOOL_NAMES, build_tool_context, get_tool_schemas
+from app.services.data_tools import ALLOWED_COLUMNS
+from app.schemas.schemas import TOOL_NAMES, build_tool_context, get_tool_schemas
 
 
 def _schema_by_name(name: str) -> dict:

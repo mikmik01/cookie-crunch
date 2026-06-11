@@ -1,4 +1,4 @@
-from backend.app.services.validator import validate_and_repair_plan
+from app.services.validator import validate_and_repair_plan
 
 
 def test_plan_repair_returns_safe_plan_from_bad_llm_output():

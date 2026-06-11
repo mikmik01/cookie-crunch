@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-import backend.app.services.agent as agent
+import app.services.agent as agent
 
 
 @pytest.fixture

@@ -1,8 +1,8 @@
 import pandas as pd
 import pytest
 
-import backend.app.services.data_agent as data_agent
-from backend.app.services.data_agent import AgentLoopError, parse_model_json, run_data_agent
+import app.services.data_agent as data_agent
+from app.services.data_agent import AgentLoopError, parse_model_json, run_data_agent
 
 
 @pytest.fixture
