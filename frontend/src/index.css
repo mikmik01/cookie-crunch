@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: "Watermelon Sugar";
-  src: url("/fonts/WatermelonSugar.ttf") format("truetype");
+  src: url("/frontend/src/assets/fonts/WatermelonSugar.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
